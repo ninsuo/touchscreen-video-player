@@ -16,6 +16,11 @@ ffmpeg -i originalMovie.avi -c:v libx264 -crf 24 -preset slow -c:a aac -strict e
 
 This is quite minimal but does the job for me.
 
+## Supported languages
+
+- English
+- Français
+
 ## Installation
 
 First, install the application:
@@ -29,7 +34,9 @@ php app/console server:start
 run http://127.0.0.1:8000
 ```
 
-Now, create a symbolic
+Now, move your videos to the `web/videos` directory. If you wish not to move them, create a symbolic link (don't forget
+to disable directory indexing in your server configuration, or at least put an index.html inside the exposed video
+directory).
 
 Then, set-up at least one Resource Owner:
 
@@ -56,9 +63,6 @@ All users can create/update their digi-login in the menu. They'll need to set a 
 like a phone number or whatever) and a 4-digit pin code. If someone try to bruteforce an account, its pin code will
 be dropped after 10 tries (configurable on a per-user basis).
 
-There are no interfaces to upload new videos (yet), you'll need to set the video path in configuration (don't forget to disable
-directory indexing in your server configuration, or at least put an index.html inside the exposed video directory).
-
 ## Bonus
 
 Encode your whole movies directory with the following script:
@@ -80,5 +84,5 @@ foreach (glob("*.avi") as $file) {
 
 - This project is released under the MIT license
 
-- Fuz logo is © 2013-2016 Alain Tiemblo
+- Fuz logo is © 2013-2017 Alain Tiemblo
 

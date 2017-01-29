@@ -1,0 +1,31 @@
+admin:
+    groups:
+        id: ID
+        name: Name
+        create: Create a new group
+        group: group
+        actions: Actions
+        delete: Delete
+        delete_confirm: Are you sure that you want to remouve group "%group%"?
+        manage: Manage group members
+    users:
+        id: ID
+        network: Network
+        nickname: Name
+        contact: Email
+        admin: Admin
+        frozen: Frozen
+        actions: Actions
+        manage: Manage member groups
+    users_groups:
+        title: %name%'s groups
+        in: 'Groups where %name% is:'
+        out: "Groups where %name% isn't:"
+        add: Add in group
+        remove: Remove from group
+    groups_users:
+        title: Members in group %name%
+        in: 'Members in %name%:'
+        out: "Members not in %name%:"
+        add: Add in group
+        remove: Remove from group

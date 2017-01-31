@@ -1,0 +1,34 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+
+        {% for video in pager.currentPageResults %}
+
+            <div class="col-md-4 video-block">
+                {% if video.thumbnail %}
+                    <img class="thumbnail-image" src="{{ asset('video/' ~ video.thumbnail) }}" />
+                {% else %}
+                    <img class="thumbnail-image" src="{{ asset('bundles/app/img/no-thumbnail.jpeg') }}" />
+                {% endif %}
+                <p>{{ video.link }}</p>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+    <br/>
+
+    <div class="text-center">
+        {% for i in 1..pager.getNbPages() %}
+            <a class="btn btn-primary video-button" href="{{ path('video_index', {page:i}) }}">{{ i }}</a>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
+

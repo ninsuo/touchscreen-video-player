@@ -27,7 +27,7 @@ class OAuthUserProvider extends BaseUserProvider
                 $user->addRole('ROLE_ADMIN');
             }
             foreach ($user->getGroups()->toArray() as $group) {
-                $user->addRole('GROUP_'.$group->getName());
+                $user->addRole('ROLE_GROUP_'.$group->getName());
             }
         }
 

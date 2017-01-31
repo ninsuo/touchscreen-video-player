@@ -10,6 +10,16 @@
             {{ render(controller('DigiLoginBundle:Connect:pad', {'container': '#pad', 'route': 'home'})) }}
         </div>
 
+    {% else %}
+
+        {% if not is_granted('ROLE_GROUP_VIDEO') %}
+
+            {% import 'BaseBundle::macros.html.twig' as macros %}
+
+            {{ macros.box('blue', 'app.access_denied.title'|trans, 'app.access_denied.message'|trans) }}
+
+        {% endif %}
+
     {% endif %}
 
 {% endblock %}

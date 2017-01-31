@@ -1,1 +1,4 @@
 app:
+    access_denied:
+        title: Désolé, vous n'avez pas accès au lecteur vidéo.
+        message: Votre utilisateur doit se trouver dans le groupe VIDEO, et pour l'instant, ce n'est pas le cas.

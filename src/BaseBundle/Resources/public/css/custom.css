@@ -124,7 +124,36 @@ img.gallery {
    height: 200px;
 }
 
-.thumbnail:hover {
+.thumbnail:hover, .video-block:hover {
     background-color: #fdf5ce;
 }
 
+.thumbnail-image {
+  width: 90%;
+  height: 90%;
+}
+
+.video-block {
+    text-align:center;
+    font-size:20px;
+}
+
+.video-block img {
+    margin: 0 auto;
+}
+
+.video-pagination {
+    font-size: 40px;
+}
+
+.video-pagination li {
+    width: 100px !important;
+    margin: 10px;
+}
+
+.video-button {
+    width: 150px;
+    height: 150px;
+    font-size: 90px;
+    margin: 10px;
+}

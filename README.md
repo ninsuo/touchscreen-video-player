@@ -54,6 +54,11 @@ UPDATE users SET is_admin = 1 WHERE id = 1;
 
 Now, create the VIDEO group, and add your user in it. Sign-out and sign-in: you can now access your videos!
 
+*Note*
+
+If you want movie thumbnails, you need to install ffmpeg on your server, and allow php to exec(). That's
+not mandatory though, you'll just have a fallback image instead.
+
 ## Usage
 
 As you'll notice, all users can subscribe, but only the ones in group `VIDEO` can access the video player.

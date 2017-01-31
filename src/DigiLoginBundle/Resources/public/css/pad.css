@@ -1,0 +1,50 @@
+
+.digi-box {
+    text-align: center;
+    width: 100%;
+}
+
+.digi-box input {
+    width: 1020px;
+}
+
+.digi-message {
+    width: 1024px;
+}
+
+.digi-text {
+    font-size: 40px;
+}
+
+.digi-input input {
+    border: none;
+}
+
+.digi-table {
+    width: 1024px;
+}
+
+.digi-row {
+
+}
+
+.digi-cell {
+    width: 33%;
+}
+
+.digi-btn {
+    width: 320px;
+    height: 110px;
+    margin: 10px;
+    font-size: 65px;
+}
+
+.digi-field {
+    font-size: 60px;
+    color: #428bca;
+    height: 70px;
+}
+
+div.alert-info {
+}
+

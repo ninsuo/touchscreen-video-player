@@ -1,39 +1,39 @@
-<div id="digilogin-pad" class="digi-box">
+<div class="digi-box">
     {{ form_start(form) }}
 
-    <div id="digi-step" class="hide">0</div>
+    <div class="digi-step hide">0</div>
 
     <div
-        id="digi-submit"
+        class="digi-submit"
         data-endpoint="{{ path('digi_connect') }}"
         data-input="#pad"
         data-output="#pad"
     ></div>
 
     {% if failure|default(false) %}
-    <div id="digi-error" class="digi-text alert alert-danger">
+    <div class="digi-message digi-text alert alert-danger">
         {{ 'digilogin.validation.failure'|trans }}
     </div>
     {% endif %}
 
     {% if revoked|default(false) %}
-    <div id="digi-error" class="digi-text alert alert-warning">
+    <div class="digi-message digi-text alert alert-warning">
         {{ 'digilogin.validation.revoked'|trans }}
     </div>
     {% endif %}
 
     {% if success|default(false) %}
-    <div id="digi-error" class="digi-text alert alert-success">
+    <div class="digi-message digi-text alert alert-success">
         {{ 'digilogin.validation.success'|trans }}
     </div>
     {% endif %}
 
-    <div id="digi-step-0" class="digi-text">
+    <div class="digi-step-0 digi-input digi-text">
         {{ 'digilogin.connect.step.login'|trans }}
         {{ form_widget(form.login, {'attr': {'class': 'digi-field'}}) }}
     </div>
 
-    <div id="digi-step-1" class="digi-text hide">
+    <div class="digi-step-1 digi-input digi-text hide">
         {{ 'digilogin.connect.step.pin'|trans }}
         {{ form_widget(form.pin, {'attr': {'class': 'digi-field'}}) }}
     </div>
@@ -51,28 +51,30 @@
         ]
     %}
 
-    {% for row in pad %}
-        <div class="row">
-            {% for num in row %}
-                <div class="col-xs-4">
-                    {% set layout = 'primary' %}
-                    {% set action = 'input' %}
-                    {% if num is sameas(SP) %}
-                        &nbsp;
-                    {% elseif num is sameas(BS) %}
-                        {% set layout = 'danger' %}
-                        {% set action = 'backspace' %}
-                    {% elseif num is sameas(OK) %}
-                        {% set layout = 'success' %}
-                        {% set action = 'validate' %}
-                    {% endif %}
-                    {% if num is not sameas(SP) %}
-                        <a href="#" class="digi-btn btn btn-lg btn-{{ layout }}" data-action="{{ action }}">{{ num|raw }}</a>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </div>
-    {% endfor %}
+    <table class="digi-table">
+        {% for row in pad %}
+            <tr class="digi-row">
+                {% for num in row %}
+                    <td class="digi-cell">
+                        {% set layout = 'primary' %}
+                        {% set action = 'input' %}
+                        {% if num is sameas(SP) %}
+                            &nbsp;
+                        {% elseif num is sameas(BS) %}
+                            {% set layout = 'danger' %}
+                            {% set action = 'backspace' %}
+                        {% elseif num is sameas(OK) %}
+                            {% set layout = 'success' %}
+                            {% set action = 'validate' %}
+                        {% endif %}
+                        {% if num is not sameas(SP) %}
+                            <a href="#" class="digi-btn btn btn-lg btn-{{ layout }}" data-action="{{ action }}">{{ num|raw }}</a>
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
 
     {{ form_end(form) }}
 
@@ -110,7 +112,7 @@
                     that.css('filter', '');
                 }, 100);
 
-                var step = $('#digi-step').html();
+                var step = $('.digi-step').html();
                 var field = null;
                 if ('0' === step) {
                     field = $('#{{ form.login.vars.id }}');
@@ -129,9 +131,9 @@
                             if (field.val().length > 0) {
                                 field.val('');
                             } else {
-                                $('#digi-step').html('0');
-                                $('#digi-step-0').removeClass('hide');
-                                $('#digi-step-1').addClass('hide');
+                                $('.digi-step').html('0');
+                                $('.digi-step-0').removeClass('hide');
+                                $('.digi-step-1').addClass('hide');
                             }
                         } else {
                             field.val(field.val().slice(0, -1));
@@ -140,11 +142,11 @@
                         break;
                     case 'validate':
                         if ('0' === step) {
-                            $('#digi-step').html('1');
-                            $('#digi-step-0').addClass('hide');
-                            $('#digi-step-1').removeClass('hide');
+                            $('.digi-step').html('1');
+                            $('.digi-step-0').addClass('hide');
+                            $('.digi-step-1').removeClass('hide');
                         } else {
-                            $('#digi-submit').domAjax();
+                            $('.digi-submit').domAjax();
                         }
                         break;
                     default:
@@ -162,5 +164,13 @@
         });
 
     </script>
+
+    {{
+        mega_responsive(
+            'bundles/digilogin/css/pad.css',
+            'DigiLoginBundle/Resources/views/Connect/megaResponsive.twig',
+            '.digi-box'
+        )
+    }}
 
 </div>

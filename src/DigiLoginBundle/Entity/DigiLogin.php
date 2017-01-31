@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * DigiLogin
  *
- * @ORM\Table(name="digi_login")
+ * @ORM\Table(name="digilogin")
  * @ORM\Entity(repositoryClass="DigiLoginBundle\Repository\DigiLoginRepository")
  * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  */

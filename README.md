@@ -59,7 +59,7 @@ Now, create the VIDEO group, and add your user in it. Sign-out and sign-in: you 
 As you'll notice, all users can subscribe, but only the ones in group `VIDEO` can access the video player.
 All administrators can manage users and groups through the "Administration" menu at the top.
 
-All users can create/update their digi-login in the menu. They'll need to set a 10-digit login (something they know by heart,
+All users can create/update their digilogin in the menu. They'll need to set a 10-digit login (something they know by heart,
 like a phone number or whatever) and a 4-digit pin code. If someone try to bruteforce an account, its pin code will
 be dropped after 10 tries (configurable on a per-user basis).
 

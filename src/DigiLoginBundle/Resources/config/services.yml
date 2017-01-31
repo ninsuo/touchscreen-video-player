@@ -1,4 +1,9 @@
+parameters:
+    digilogin.twig.extension.class: DigiLoginBundle\Twig\Extension\DigiLoginExtension
+
 services:
-#    digi_security.example:
-#        class: Fuz\DigiSecurityBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    digilogin.twig.extension:
+        class: '%digilogin.twig.extension.class%'
+        parent: base.twig_extension
+        tags:
+            - { name: twig.extension }

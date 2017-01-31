@@ -127,3 +127,20 @@ img.gallery {
 .thumbnail:hover {
     background-color: #fdf5ce;
 }
+
+.digi-btn {
+    width: 100%;
+    height: 120px;
+    margin: 10px;
+    font-size: 80px;
+}
+
+.digi-text {
+    font-size: 40px;
+}
+
+.digi-field {
+    font-size: 80px;
+    color: #428bca;
+    height: 90px;
+}

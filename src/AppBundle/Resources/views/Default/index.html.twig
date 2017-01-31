@@ -1,7 +1,15 @@
 {% extends 'AppBundle::layout.html.twig' %}
 
+{% block title %}{% endblock %}
+
 {% block body %}
 
-    Hello!
+    {% if not is_granted('ROLE_USER') %}
+
+        <div id="pad">
+            {{ render(controller('DigiLoginBundle:Connect:pad', {'container': '#pad', 'route': 'home'})) }}
+        </div>
+
+    {% endif %}
 
 {% endblock %}

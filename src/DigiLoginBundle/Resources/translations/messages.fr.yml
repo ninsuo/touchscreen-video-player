@@ -1,1 +1,22 @@
 digilogin:
+    connect:
+        step:
+            login: Merci de saisir votre identifiant
+            pin: Merci de saisir votre code PIN
+    manage:
+        title: Votre DigiLogin
+        validation:
+            login_already_used: Cet identifiant est déjà utilisé, merci d'en choisir un autre.
+        form:
+            login: Choisissez un identifiant (de 1 à 32 chiffres)
+            max_tries: Choisissez le nombre maximum d'essais avant la révocation de votre code PIN.
+            pin: Choisissez un code PIN (de 1 à 16 chiffres)
+        layout:
+            configuration: Configuration
+            test: Testez-le!
+    validation:
+        failure: Identifiant ou mot de passe incorrect.
+        success: Connexion réussie.
+        revoked: Désolé. Ce code PIN est révoqué.
+    menu:
+        manage: Gérer votre DigiLogin

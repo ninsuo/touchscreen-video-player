@@ -1,5 +1,22 @@
 digilogin:
+    connect:
+        step:
+            login: Please type your login
+            pin: Please type your pin code
     manage:
         title: Your DigiLogin
+        validation:
+            login_already_used: This login is already used, please choose another one.
+        form:
+            login: Choose a login (from 1 to 32 digits)
+            max_tries: Choose how many unsuccessful tries you want before pin revoking.
+            pin: Choose a pin code (from 1 to 16 digits)
+        layout:
+            configuration: Configuration
+            test: Test it!
+    validation:
+        failure: Invalid credentials.
+        success: Success.
+        revoked: Sorry. PIN code revoked.
     menu:
         manage: Manage your DigiLogin

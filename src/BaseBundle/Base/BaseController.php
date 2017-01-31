@@ -18,9 +18,6 @@ abstract class BaseController extends Controller
 {
     use ServiceTrait;
 
-    const PAGER_PER_PAGE_LIST    = [10, 25, 50, 100, 250];
-    const PAGER_PER_PAGE_DEFAULT = 25;
-
     public function info($message, array $parameters = [])
     {
         $this->addFlash('info', $this->trans($message, $parameters));
@@ -65,8 +62,8 @@ abstract class BaseController extends Controller
         $pager = new Pagerfanta($adapter);
         $pager->setNormalizeOutOfRangePages(true);
 
-        $perPage = $request->query->get($prefix.'per-page', self::PAGER_PER_PAGE_DEFAULT);
-        if (!in_array($perPage, self::PAGER_PER_PAGE_LIST)) {
+        $perPage = $request->query->get($prefix.'per-page', 25);
+        if (!in_array($perPage, [10, 25, 50])) {
             throw new NotValidMaxPerPageException();
         }
 

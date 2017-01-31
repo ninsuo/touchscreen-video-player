@@ -1,4 +1,4 @@
-LifeFitness Video Player
+Touchscreen Video Player
 ========================
 
 ## What is it?

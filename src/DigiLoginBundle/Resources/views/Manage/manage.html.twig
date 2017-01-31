@@ -1,0 +1,22 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block title %}{{ 'digilogin.manage.title'|trans }}{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-{{ data.id ? 6 : 12 }}">
+            <h2>{{ 'digilogin.manage.layout.configuration'|trans }}</h2>
+            {{ form(form) }}
+        </div>
+        {% if data.id %}
+            <div class="col-md-6">
+                <h2>{{ 'digilogin.manage.layout.test'|trans }}</h2>
+                <div id="pad">
+                    {{ render(controller('DigiLoginBundle:Connect:pad')) }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

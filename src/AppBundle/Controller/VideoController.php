@@ -12,7 +12,7 @@ use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
 
 /**
- * @Route("/video")
+ * @Route("/videos")
  * @Security("has_role('ROLE_GROUP_VIDEO')")
  */
 class VideoController extends BaseController

@@ -1,0 +1,41 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link href="http://vjs.zencdn.net/5.8.8/video-js.css" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+    <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+
+        <div class="col-md-8">
+            <h3>{{ 'app.player.player'|trans }}</h3>
+
+            <div class="text-center">
+                <video id="my-video" class="video-js" controls preload="auto" width="720" height="480" poster="{{ thumbnail }}" data-setup="{}">
+                    <source src="{{ asset('video/' ~ link) }}" type='video/mp4'>
+                    <p class="vjs-no-js">
+                        To view this video please enable JavaScript, and consider upgrading to a web browser that
+                        <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                    </p>
+                </video>
+            </div>
+
+        </div>
+        <div class="col-md-4">
+            <h3>{{ 'app.player.controls'|trans }}</h3>
+
+            To Be Continued ..
+        </div>
+    </div>
+
+{% endblock %}

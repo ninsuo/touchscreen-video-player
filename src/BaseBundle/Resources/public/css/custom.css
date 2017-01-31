@@ -133,6 +133,10 @@ img.gallery {
   height: 90%;
 }
 
+.video-table {
+    width: 100%;
+}
+
 .video-block {
     text-align:center;
     font-size:20px;

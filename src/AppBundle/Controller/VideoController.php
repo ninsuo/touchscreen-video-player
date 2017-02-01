@@ -13,7 +13,14 @@ use Pagerfanta\Pagerfanta;
 
 /**
  * @Route("/videos")
- * @Security("has_role('ROLE_GROUP_VIDEO')")
+ *
+ * SECURITY DISABLED TO MAKE SOME TESTS
+ * (cookies not saved by lifefitness equipment)
+ * 
+ *********************************************
+ * Security("has_role('ROLE_GROUP_VIDEO')")
+ *********************************************
+ *
  */
 class VideoController extends BaseController
 {

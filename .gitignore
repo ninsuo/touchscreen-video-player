@@ -15,7 +15,7 @@ bin/
 composer.phar
 .DS_Store
 .php_cs.cache
-TODO
+notes.txt
 /web/upload/*
 /web/upload/ckeditor/*
 !/web/upload/index.html

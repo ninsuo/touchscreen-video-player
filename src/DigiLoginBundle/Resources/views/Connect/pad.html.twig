@@ -83,7 +83,6 @@
         function SetCaretAtEnd(elem) {
             var elemLen = elem.value.length;
             if (document.selection) {
-                elem.focus();
                 var oSel = document.selection.createRange();
                 oSel.moveStart('character', -elemLen);
                 oSel.moveStart('character', elemLen);
@@ -93,7 +92,6 @@
             else if (elem.selectionStart || elem.selectionStart === '0') {
                 elem.selectionStart = elemLen;
                 elem.selectionEnd = elemLen;
-                elem.focus();
             }
         }
 

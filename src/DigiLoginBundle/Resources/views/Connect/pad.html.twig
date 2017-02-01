@@ -156,8 +156,7 @@
 
             {% if route|default(false) %}
                 setTimeout(function() {
-                    //window.location.replace("{{ path(route, routeParams)|e('js') }}");
-                    window.location.replace("http://fuz.org/a.htm");
+                    window.location.replace("{{ path(route, routeParams)|e('js') }}");
                 }, 1000);
             {% endif %}
 

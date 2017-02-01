@@ -62,8 +62,8 @@ class VideoController extends BaseController
     public function playAction($video)
     {
         return [
-            'link' => $link = str_replace('../', '', $video) . '.mp4',
-            'thumbnail' => $link . '.jpg',
+            'link'      => $link       = str_replace('../', '', $video).'.mp4',
+            'thumbnail' => $link.'.jpg',
         ];
     }
 }

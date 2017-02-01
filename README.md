@@ -7,6 +7,12 @@ I'm in a sport club providing LifeFitness equipment. Each machine incorporate a 
 some sports-related things and... an Internet browser. For me it meant, "an online video player" that will play
 my favorite movies.
 
+![Login][doc/00-login.png)
+
+![Video index][doc/01-index.png)
+
+![Play][doc/02-play.png)
+
 Once you logged-in through large numeric buttons, you can access videos stored in your server's directory. It
 supports mp4, but prefer a big compression to avoid latency (internet connection isn't always good), such as:
 

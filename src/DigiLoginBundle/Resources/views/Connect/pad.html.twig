@@ -1,4 +1,4 @@
-<div class="digi-box">
+<div class="digi-box row">
     {{ form_start(form) }}
 
     <div class="digi-step hide">0</div>
@@ -11,29 +11,29 @@
     ></div>
 
     {% if failure|default(false) %}
-    <div class="digi-message digi-text alert alert-danger">
+    <div class="digi-message digi-text alert alert-danger col-xs-12">
         {{ 'digilogin.validation.failure'|trans }}
     </div>
     {% endif %}
 
     {% if revoked|default(false) %}
-    <div class="digi-message digi-text alert alert-warning">
+    <div class="digi-message digi-text alert alert-warning col-xs-12">
         {{ 'digilogin.validation.revoked'|trans }}
     </div>
     {% endif %}
 
     {% if success|default(false) %}
-    <div class="digi-message digi-text alert alert-success">
+    <div class="digi-message digi-text alert alert-success col-xs-12">
         {{ 'digilogin.validation.success'|trans }}
     </div>
     {% endif %}
 
-    <div class="digi-step-0 digi-input digi-text">
+    <div class="digi-step-0 digi-input digi-text col-xs-12">
         {{ 'digilogin.connect.step.login'|trans }}
         {{ form_widget(form.login, {'attr': {'class': 'digi-field'}}) }}
     </div>
 
-    <div class="digi-step-1 digi-input digi-text hide">
+    <div class="digi-step-1 digi-input digi-text hide col-xs-12">
         {{ 'digilogin.connect.step.pin'|trans }}
         {{ form_widget(form.pin, {'attr': {'class': 'digi-field'}}) }}
     </div>
@@ -51,30 +51,28 @@
         ]
     %}
 
-    <table class="digi-table">
         {% for row in pad %}
-            <tr class="digi-row">
-                {% for num in row %}
-                    <td class="digi-cell">
-                        {% set layout = 'primary' %}
-                        {% set action = 'input' %}
-                        {% if num is sameas(SP) %}
-                            &nbsp;
-                        {% elseif num is sameas(BS) %}
-                            {% set layout = 'danger' %}
-                            {% set action = 'backspace' %}
-                        {% elseif num is sameas(OK) %}
-                            {% set layout = 'success' %}
-                            {% set action = 'validate' %}
-                        {% endif %}
-                        {% if num is not sameas(SP) %}
-                            <a href="#" class="digi-btn btn btn-lg btn-{{ layout }}" data-action="{{ action }}">{{ num|raw }}</a>
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>
+            {% for num in row %}
+                <div class="col-xs-4">
+                    {% set layout = 'primary' %}
+                    {% set action = 'input' %}
+                    {% if num is sameas(SP) %}
+                        &nbsp;
+                    {% elseif num is sameas(BS) %}
+                        {% set layout = 'danger' %}
+                        {% set action = 'backspace' %}
+                    {% elseif num is sameas(OK) %}
+                        {% set layout = 'success' %}
+                        {% set action = 'validate' %}
+                    {% endif %}
+                    {% if num is not sameas(SP) %}
+                        <a href="#" class="digi-btn btn btn-lg btn-{{ layout }}" data-action="{{ action }}">{{ num|raw }}</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
         {% endfor %}
-    </table>
+
+    </div>
 
     {{ form_end(form) }}
 
@@ -166,7 +164,7 @@
         mega_responsive(
             'bundles/digilogin/css/pad.css',
             'DigiLoginBundle/Resources/views/Connect/megaResponsive.twig',
-            '.digi-box'
+            'window'
         )
     }}
 

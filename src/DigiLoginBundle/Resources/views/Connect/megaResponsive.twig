@@ -9,7 +9,7 @@ $(document).ready(function() {
 });
 
 window.resize_{{ rand }} = function() {
-    var ratio = ($('{{ container|e('js') }}').width() / 1024);
+    var ratio = ($({{ container }}).height() / 1024);
     {% for line in js %}
         {{ line|raw }}
     {% endfor %}

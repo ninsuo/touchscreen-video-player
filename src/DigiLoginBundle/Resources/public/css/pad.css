@@ -5,11 +5,7 @@
 }
 
 .digi-box input {
-    width: 1020px;
-}
-
-.digi-message {
-    width: 1024px;
+    width: 100%;
 }
 
 .digi-text {
@@ -20,22 +16,14 @@
     border: none;
 }
 
-.digi-table {
-    width: 1024px;
-}
-
-.digi-row {
-
-}
-
 .digi-cell {
     width: 33%;
 }
 
 .digi-btn {
-    width: 320px;
+    width: 95%;
     height: 110px;
-    margin: 10px;
+    margin: 3% 0;
     font-size: 65px;
 }
 

@@ -76,19 +76,22 @@ be dropped after 10 tries (configurable on a per-user basis).
 
 ## Bonus
 
-Encode your whole movies directory with the following script:
+Encode your whole *.avi movies to compatible video.js .mp4 files with the following command (requires ffmpeg):
 
-```php
-<?php
+```sh
+php app/console prepare:videos
+```
 
-foreach (glob("*.avi") as $file) {
-	$dst = trim(str_replace('.avi', '.mp4', $file));
-	$file = escapeshellarg(trim($file));
-    if (!is_file($dst)) {
-        $dst = escapeshellarg($dst);
-        exec("ffmpeg -i {$file} -c:v libx264 -crf 24 -preset slow -c:a aac -strict experimental -b:a 192k -ac 2 {$dst}");
-    }
-}
+Create .png thumbnails for a more friendly index (requires ffmpeg):
+
+```sh
+php app/console prepare:thumbnails
+```
+
+Create animated .gif to ~~feel like on youporn~~ have an AWESOME index (requires ffmpeg and convert):
+
+```sh
+php app/console prepare:animated-thumbnails
 ```
 
 ## License

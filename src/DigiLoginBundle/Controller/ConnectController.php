@@ -89,7 +89,7 @@ class ConnectController extends BaseController
             $this->saveEntity($test);
 
             // Symfony authentication
-            $user = $test->getUser();
+            $user  = $this->get('base.oauth_user_provider')->loadUserByUsername($test->getUser()->getUsername());
             $token = new OAuthToken(null, $user->getRoles());
             $token->setUser($this->getRealEntity($user));
             $this->get('security.token_storage')->setToken($token);

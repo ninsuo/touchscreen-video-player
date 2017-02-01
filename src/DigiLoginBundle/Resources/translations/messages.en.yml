@@ -15,6 +15,7 @@ digilogin:
             configuration: "Configuration"
             test: "Test it!"
     validation:
+        enter: Click to enter.
         failure: "Invalid credentials."
         success: "Success."
         revoked: "Sorry. PIN code revoked."

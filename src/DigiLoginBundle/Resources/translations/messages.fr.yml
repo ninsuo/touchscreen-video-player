@@ -15,6 +15,7 @@ digilogin:
             configuration: Configuration
             test: Testez-le!
     validation:
+        enter: Cliquez pour entrer.
         failure: Identifiant ou mot de passe incorrect.
         success: Connexion réussie.
         revoked: Désolé. Ce code PIN est révoqué.

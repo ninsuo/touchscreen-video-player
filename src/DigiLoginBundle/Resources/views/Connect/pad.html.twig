@@ -25,6 +25,9 @@
     {% if success|default(false) %}
     <div class="digi-message digi-text alert alert-success col-xs-12">
         {{ 'digilogin.validation.success'|trans }}
+        {% if route|default(false) %}
+            <a href="{{ path(route, routeParams)|e('html_attr') }}">{{ 'digilogin.validation.enter'|trans }}</a>
+        {% endif %}
     </div>
     {% endif %}
 
@@ -106,7 +109,7 @@
                 setTimeout(function() {
                     that.css('-webkit-filter', '');
                     that.css('filter', '');
-                }, 100);
+                }, 500);
 
                 var step = $('.digi-step').html();
                 var field = null;
@@ -155,7 +158,6 @@
                     window.location.replace("{{ path(route, routeParams)|e('js') }}");
                 }, 1000);
             {% endif %}
-
         });
 
     </script>

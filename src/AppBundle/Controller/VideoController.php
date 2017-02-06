@@ -53,7 +53,7 @@ class VideoController extends BaseController
 
         $pager = new Pagerfanta(new ArrayAdapter($normalized));
         $pager->setNormalizeOutOfRangePages(true);
-        $pager->setMaxPerPage(6);
+        $pager->setMaxPerPage(10);
         $pager->setCurrentPage($request->query->get('page', 1));
 
         return [

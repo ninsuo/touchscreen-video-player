@@ -4,24 +4,23 @@
 
 {% block css %}
     {{ parent() }}
-    <link href="http://vjs.zencdn.net/5.8.8/video-js.css" rel="stylesheet">
+    <link href="{{ asset('bundles/app/css/video-js.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block js %}
     {{ parent() }}
-    <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
-    <script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
+    <script src="{{ asset('bundles/app/js/videojs-ie8.min.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/video.js') }}"></script>
 {% endblock %}
 
 {% block body %}
 
     <div class="row">
-
         <div class="col-md-8">
             <h3>{{ 'app.player.player'|trans }}</h3>
 
             <div class="text-center">
-                <video id="my-video" class="video-js" controls preload="auto" width="720" height="480" poster="{{ thumbnail }}" data-setup="{}">
+                <video class="video-js" controls preload="auto" width="360" height="240" poster="{{ thumbnail }}" data-setup="{}">
                     <source src="{{ asset('video/' ~ link) }}" type='video/mp4'>
                     <p class="vjs-no-js">
                         To view this video please enable JavaScript, and consider upgrading to a web browser that
@@ -30,11 +29,10 @@
                 </video>
             </div>
 
-        </div>
-        <div class="col-md-4">
-            <h3>{{ 'app.player.controls'|trans }}</h3>
+            <br/><br/>
 
-            To Be Continued ..
+            <a class="btn btn-primary video-back" href="{{ path('video_index', app.request.query.all) }}">{{ 'base.button.back'|trans }}</a>
+
         </div>
     </div>
 

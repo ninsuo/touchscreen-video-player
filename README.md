@@ -94,6 +94,12 @@ Create animated .gif to ~~feel like on youporn~~ have an AWESOME index (requires
 php app/console prepare:animated-thumbnails
 ```
 
+# Funny technical stuffs
+
+- If you reduce your window, even text will get smaller, I did a small poc on a "mega responsive" plugin.
+
+- I wanted to know how to create animated thumbails of videos, this is quite easy in fact!
+
 ## License
 
 - This project is released under the MIT license

@@ -2,8 +2,10 @@
 
 {% block title %}{% endblock %}
 
-{% block body %}
+{% block head %}{% endblock %}
 
+{% block body %}
+    
     <table class="video-table">
 
         {% for key, video in pager.currentPageResults %}
@@ -24,8 +26,6 @@
         {% endfor %}
 
     </table>
-
-    <br/>
 
     <div class="text-center">
         {% for i in 1..pager.getNbPages() %}

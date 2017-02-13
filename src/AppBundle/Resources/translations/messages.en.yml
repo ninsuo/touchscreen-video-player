@@ -5,3 +5,4 @@ app:
     player:
         player: Player
         controls: Controls
+    videos: Open Videos

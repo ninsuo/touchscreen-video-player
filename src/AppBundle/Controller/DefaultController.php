@@ -15,10 +15,6 @@ class DefaultController extends BaseController
      */
     public function indexAction()
     {
-        if ($this->isGranted('ROLE_GROUP_VIDEO')) {
-            return new RedirectResponse($this->generateUrl('video_index'));
-        }
-
         return [];
     }
 }

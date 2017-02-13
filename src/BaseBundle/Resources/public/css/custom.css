@@ -129,8 +129,7 @@ img.gallery {
 }
 
 .thumbnail-image {
-  width: 90%;
-  height: 90%;
+  height: 100px;
 }
 
 .video-table {
@@ -156,13 +155,12 @@ img.gallery {
 }
 
 .video-button {
-    width: 75px;
-    height: 75px;
-    font-size: 45px;
-    margin: 10px;
+    height: 35px;
+    font-size: 15px;
+    margin: 5px;
 }
 
 .video-back {
-    height: 75px;
-    font-size: 45px;
+    height: 35px;
+    font-size: 15px;
 }

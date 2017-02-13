@@ -2,6 +2,8 @@
 
 {% block title %}{% endblock %}
 
+{% block head %}{% endblock %}
+
 {% block css %}
     {{ parent() }}
     <link href="{{ asset('bundles/app/css/video-js.css') }}" rel="stylesheet">
@@ -29,7 +31,7 @@
                 </video>
             </div>
 
-            <br/><br/>
+            <br/>
 
             <a class="btn btn-primary video-back" href="{{ path('video_index', app.request.query.all) }}">{{ 'base.button.back'|trans }}</a>
 

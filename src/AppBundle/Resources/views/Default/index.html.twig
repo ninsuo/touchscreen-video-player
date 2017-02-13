@@ -18,6 +18,12 @@
 
             {{ macros.box('blue', 'app.access_denied.title'|trans, 'app.access_denied.message'|trans) }}
 
+        {% else %}
+
+            <div class="text-center">
+                <a class="btn btn-primary video-button" href="{{ path('video_index') }}">{{ 'app.videos'|trans }}</a>
+            </div>
+
         {% endif %}
 
     {% endif %}

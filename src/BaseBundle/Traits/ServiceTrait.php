@@ -2,14 +2,11 @@
 
 namespace BaseBundle\Traits;
 
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\VarDumper\VarDumper;
 use Doctrine\ORM\Proxy\Proxy;
 
 trait ServiceTrait
 {
-    use ContainerAwareTrait;
-
     protected function get($service)
     {
         return $this->container->get($service);

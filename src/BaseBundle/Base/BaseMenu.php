@@ -2,6 +2,7 @@
 
 namespace BaseBundle\Base;
 
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use BaseBundle\Traits\ServiceTrait;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
@@ -9,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 abstract class BaseMenu implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
     use ServiceTrait;
 
     const POSITION_LEFT  = 'left';

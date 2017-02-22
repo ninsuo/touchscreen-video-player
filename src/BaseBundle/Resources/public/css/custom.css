@@ -164,3 +164,14 @@ img.gallery {
     height: 35px;
     font-size: 15px;
 }
+
+.video-control {
+    width: 100%;
+}
+
+.vjs-progress-holder {
+    height: 30px !important;
+}
+.vjs-play-progress {
+    height: 30px !important;
+}

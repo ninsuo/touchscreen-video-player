@@ -21,7 +21,7 @@
             <h3>{{ 'app.player.player'|trans }}</h3>
             #}
             <div class="text-center">
-                <video class="video-js" controls preload="auto" width="360" height="240" poster="{{ thumbnail }}" data-setup="{}">
+                <video id="player" class="video-js" controls preload="auto" width="360" height="240" poster="{{ thumbnail }}" data-setup="{}">
                     <source src="{{ asset('video/' ~ link) }}" type='video/mp4'>
                     <p class="vjs-no-js">
                         To view this video please enable JavaScript, and consider upgrading to a web browser that
@@ -35,6 +35,25 @@
             <a class="btn btn-primary video-back" href="{{ path('video_index', app.request.query.all) }}">{{ 'base.button.back'|trans }}</a>
 
         </div>
+        <div class='col-md-4'>
+
+           <a class="btn btn-primary video-button video-control enter-fullscreen" href="#">{{ 'app.player.play'|trans }}</a>
+
+        </div>
     </div>
+
+{% endblock %}
+
+{% block script %}
+
+    <script type="text/javascript">
+
+        $('.enter-fullscreen').click(function(e) {
+            e.preventDefault();
+            $('.vjs-play-control').click();
+            $('.vjs-fullscreen-control').click();
+        });
+
+    </script>
 
 {% endblock %}

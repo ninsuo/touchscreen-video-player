@@ -5,4 +5,5 @@ app:
     player:
         player: Lecteur
         controls: Contrôles
+        fullscreen: Lancer maintenant!
     videos: Ouvrir les vidéos

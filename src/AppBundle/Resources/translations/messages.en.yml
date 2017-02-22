@@ -5,4 +5,5 @@ app:
     player:
         player: Player
         controls: Controls
+        play: Play now!
     videos: Open Videos

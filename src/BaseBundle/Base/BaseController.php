@@ -18,6 +18,9 @@ abstract class BaseController extends Controller
 {
     use ServiceTrait;
 
+    const PAGER_PER_PAGE_LIST    = [25, 50, 100];
+    const PAGER_PER_PAGE_DEFAULT = 25;
+
     public function info($message, array $parameters = [])
     {
         $this->addFlash('info', $this->trans($message, $parameters));
@@ -48,8 +51,45 @@ abstract class BaseController extends Controller
         return $this->container->get('form.factory')->createNamedBuilder($name, $type, $data, $options);
     }
 
-    public function getPager(Request $request, $data, $prefix = '', $hasJoins = false)
+    public function orderBy(QueryBuilder $qb, $class, $prefixedDefaultColumn, $defaultDirection = 'ASC', $prefix = '', $hash = null)
     {
+        $request = $this->get('request_stack')->getMasterRequest();
+
+        if (strpos($prefixedDefaultColumn, '.') === false) {
+            throw new \LogicException("Invalid format of the given doctrine default column: {$prefixedDefaultColumn}.");
+        }
+
+        $qbPrefix      = substr($prefixedDefaultColumn, 0, strrpos($prefixedDefaultColumn, '.'));
+        $defaultColumn = substr($prefixedDefaultColumn, strrpos($prefixedDefaultColumn, '.') + 1);
+
+        if (!class_exists($class)) {
+            throw new \LogicException("Class '$class' not found.");
+        }
+
+        $column = $request->get($prefix.'order-by', $defaultColumn);
+        if (!property_exists($class, $column)) {
+            $column = $defaultColumn;
+        }
+
+        $direction = strtoupper($request->get($prefix.'order-by-direction', $defaultDirection));
+        if ($direction !== 'ASC' && $direction !== 'DESC') {
+            $direction = $defaultDirection;
+        }
+
+        $qb->orderBy($qbPrefix.'.'.$column, $direction);
+
+        return [
+            'prefix'    => $prefix,
+            'column'    => $column,
+            'direction' => $direction,
+            'hash'      => $hash,
+        ];
+    }
+
+    public function getPager($data, $prefix = '', $hasJoins = false)
+    {
+        $request = $this->get('request_stack')->getMasterRequest();
+
         $adapter = null;
         if ($data instanceof QueryBuilder) {
             $adapter = new DoctrineORMAdapter($data, $hasJoins);
@@ -62,13 +102,13 @@ abstract class BaseController extends Controller
         $pager = new Pagerfanta($adapter);
         $pager->setNormalizeOutOfRangePages(true);
 
-        $perPage = $request->query->get($prefix.'per-page', 25);
-        if (!in_array($perPage, [10, 25, 50])) {
+        $perPage = $request->query->get($prefix.'per-page', self::PAGER_PER_PAGE_DEFAULT);
+        if (!in_array($perPage, self::PAGER_PER_PAGE_LIST)) {
             throw new NotValidMaxPerPageException();
         }
 
         $pager->setMaxPerPage($perPage);
-        $pager->setCurrentPage($request->request->get($prefix.'page') ?: $request->query->get($prefix.'page') ?: 1);
+        $pager->setCurrentPage($request->request->get($prefix.'page') ?: $request->query->get($prefix.'page', 1));
 
         return $pager;
     }
@@ -96,11 +136,6 @@ abstract class BaseController extends Controller
             return $this->redirect($this->generateUrl($route['name'], $route['params']));
         }
 
-        $referer = $request->headers->get('referer');
-        if (!is_null($referer)) {
-            return $this->redirect($referer);
-        }
-
-        return $this->redirect($this->generateUrl('home'));
+        return $this->redirectToRoute('home');
     }
 }

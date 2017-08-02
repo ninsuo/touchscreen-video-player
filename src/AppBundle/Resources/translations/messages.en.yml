@@ -1,7 +1,4 @@
 app:
-    access_denied:
-        title: "Sorry, you don't have access to the video player."
-        message: "Your user should be in the VIDEO group, and this is not the case so far."
     player:
         player: Player
         controls: Controls

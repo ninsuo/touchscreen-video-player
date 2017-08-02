@@ -23,3 +23,6 @@ notes.txt
 !/web/upload/ckeditor/index.html
 /web/video/*
 !/web/video/index.html
+.idea
+app/data.db3
+.web-server-pid

@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  * )
  * @ORM\Entity(repositoryClass="BaseBundle\Repository\GroupRepository")
- * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @UniqueEntity("name")
  */
 class Group
@@ -40,11 +39,26 @@ class Group
     protected $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="notes", type="text", nullable=true)
+     */
+    protected $notes;
+
+    /**
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="User", mappedBy="groups")
      */
-    private $users;
+    protected $users;
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     /**
      * Get id.
@@ -61,7 +75,7 @@ class Group
      *
      * @param string $name
      *
-     * @return User
+     * @return Group
      */
     public function setName($name)
     {
@@ -81,10 +95,74 @@ class Group
     }
 
     /**
+     * Set notes.
+     *
+     * @param string $notes
+     *
+     * @return Group
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * Get notes.
+     *
+     * @return string
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * Get users.
+     *
      * @return ArrayCollection
      */
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * Add user.
+     *
+     * @param User $user
+     *
+     * @return Group
+     */
+    public function addUser(User $user)
+    {
+        if ($this->users->contains($user)) {
+            return;
+        }
+
+        $this->users->add($user);
+        $user->addGroup($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove user.
+     *
+     * @param User $user
+     *
+     * @return Group
+     */
+    public function removeUser(User $user)
+    {
+        if (!$this->users->contains($user)) {
+            return;
+        }
+
+        $this->users->removeElement($user);
+        $user->removeGroup($this);
+
+        return $this;
     }
 }

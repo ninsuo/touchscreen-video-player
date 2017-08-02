@@ -18,7 +18,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * )
  * @ORM\Entity(repositoryClass="BaseBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks
- * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  */
 class User implements UserInterface, EquatableInterface
 {
@@ -83,16 +82,16 @@ class User implements UserInterface, EquatableInterface
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_admin", type="boolean")
+     * @ORM\Column(name="is_enabled", type="boolean")
      */
-    protected $isAdmin = false;
+    protected $isEnabled = true;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="is_frozen", type="boolean")
+     * @ORM\Column(name="is_admin", type="boolean")
      */
-    protected $isFrozen = false;
+    protected $isAdmin = false;
 
     /**
      * @var array
@@ -309,6 +308,30 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
+     * Set isEnabled.
+     *
+     * @param bool $isEnabled
+     *
+     * @return User
+     */
+    public function setIsEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    /**
+     * Get isEnabled.
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->isEnabled;
+    }
+
+    /**
      * Set isAdmin.
      *
      * @param bool $isAdmin
@@ -333,35 +356,51 @@ class User implements UserInterface, EquatableInterface
     }
 
     /**
-     * Set isFrozen.
+     * Get groups.
      *
-     * @param bool $isFrozen
-     *
-     * @return User
-     */
-    public function setIsFrozen($isFrozen)
-    {
-        $this->isFrozen = $isFrozen;
-
-        return $this;
-    }
-
-    /**
-     * Get isFrozen.
-     *
-     * @return bool
-     */
-    public function isFrozen()
-    {
-        return $this->isFrozen;
-    }
-
-    /**
      * @return ArrayCollection
      */
     public function getGroups()
     {
         return $this->groups;
+    }
+
+    /**
+     * Add group.
+     *
+     * @param Group $group
+     *
+     * @return User
+     */
+    public function addGroup(Group $group)
+    {
+        if ($this->groups->contains($group)) {
+            return;
+        }
+
+        $this->groups->add($group);
+        $group->addUser($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove group.
+     *
+     * @param Group $group
+     *
+     * @return User
+     */
+    public function removeGroup(Group $group)
+    {
+        if (!$this->groups->contains($group)) {
+            return;
+        }
+
+        $this->groups->removeElement($group);
+        $group->removeUser($this);
+
+        return $this;
     }
 
     /**
@@ -393,6 +432,20 @@ class User implements UserInterface, EquatableInterface
     {
         if (!in_array($role, $this->roles)) {
             $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $role
+     *
+     * @return User
+     */
+    public function removeRole($role)
+    {
+        if (in_array($role, $this->roles)) {
+            unset($this->roles[array_search($role, $this->roles)]);
         }
 
         return $this;

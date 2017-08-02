@@ -1,9 +1,0 @@
-parameters:
-    digilogin.twig.extension.class: DigiLoginBundle\Twig\Extension\DigiLoginExtension
-
-services:
-    digilogin.twig.extension:
-        class: '%digilogin.twig.extension.class%'
-        parent: base.twig_extension
-        tags:
-            - { name: twig.extension }

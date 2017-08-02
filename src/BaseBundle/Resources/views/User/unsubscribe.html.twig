@@ -1,0 +1,21 @@
+{# BaseBundle:User:unsubscribe.html.twig #}
+
+{% extends 'BaseBundle::layout.html.twig' %}
+
+{% block body %}
+
+    <div class="jumbotron">
+
+        <h1>{{ 'base.unsubscribe.title' | trans }}</h1>
+
+        <p>{{ 'base.unsubscribe.explain' | trans }} <span class="text-danger">{{ 'base.unsubscribe.removed' | trans }}</span>.</p>
+
+        <div>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+
+{% endblock %}

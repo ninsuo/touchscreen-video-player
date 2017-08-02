@@ -2,30 +2,31 @@ admin:
     groups:
         id: ID
         name: Nom
+        notes: Notes
         create: Créer un nouveau groupe
+        created: Groupe créé avec succès
         group: groupe
         actions: Actions
         delete: Supprimer
         delete_confirm: Voulez-vous vraiment supprimer le groupe "%group%" ?
-        manage: Gérer les membres du groupe
+        deleted: 'Groupe #%id% supprimé avec succès.'
+        manage: Utilisateurs dans ce groupe
+    groups_manage:
+        users: Utilisateurs
+        title: 'Utilisateurs du groupe %name%'
+        users_in: "Utilisateurs de %name% :"
+        users_out: "Autres utilisateurs :"
     users:
         id: ID
         network: Réseau
         nickname: Nom
         contact: Email
+        enabled: Activé
         admin: Admin
-        frozen: Gelé
         actions: Actions
-        manage: Gérer les groupes de ce membre
-    users_groups:
-        title: Groupes de %name%
-        in: 'Groupes dans lequel est %name% :'
-        out: "Groupes dans lequel %name% n'est pas :"
-        add: Ajouter dans ce groupe
-        remove: Retirer de ce groupe
-    groups_users:
-        title: Membres dans le groupe %name%
-        in: 'Membres de %name% :'
-        out: "Non membres de %name% :"
-        add: Ajouter dans ce groupe
-        remove: Retirer de ce groupe
+        manage: Groupes de cet utilisateur
+    users_manage:
+        groups: Groupes
+        title: Groupes de l'utilisateur %name%
+        groups_in: 'Groupes de %name% :'
+        groups_out: "Autres groupes :"

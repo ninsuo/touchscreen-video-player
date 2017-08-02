@@ -12,11 +12,16 @@ class Builder extends BaseMenu
         $menu = $this->createMenu($factory, parent::POSITION_LEFT);
         $this->addRoute($menu, 'base.menu.home', 'home');
 
-        if ($this->isGranted('ROLE_USER')) {
-            $this->addRoute($menu, 'digilogin.menu.manage', 'digi_manage');
-        }
+        /*
+          See the parent class if you want to implement right menus
 
-        return $menu;
+          $this->addSubMenu($menu, 'test');
+          $this->addRoute($menu['test'], 'testA', 'testa');
+          $this->addRoute($menu['test'], 'testB', 'testb', array(), array(), true);
+          $this->addRoute($menu['test'], 'testC', 'testc');
+        */
+
+        return $this->selectActiveMenu($menu);
     }
 
     public function mainRightMenu(FactoryInterface $factory, array $options)
@@ -29,6 +34,6 @@ class Builder extends BaseMenu
             $this->addRoute($menu['base.menu.admin.main'], 'base.menu.admin.groups', 'admin_groups');
         }
 
-        return $menu;
+        return $this->selectActiveMenu($menu);
     }
 }

@@ -1,8 +1,23 @@
 parameters:
-    base.locale.listener.class: BaseBundle\EventListener\LocaleListener
+    base.incomplete_profile.listener.class: BaseBundle\EventListener\IncompleteProfileListener
     base.last_route.listener.class: BaseBundle\EventListener\LastRouteListener
+    base.locale.listener.class: BaseBundle\EventListener\LocaleListener
+    base.toggle.listener.class: BaseBundle\EventListener\ToggleListener
 
 services:
+
+    base.incomplete_profile.listener:
+        class: '%base.incomplete_profile.listener.class%'
+        parent: base.service
+        tags:
+            - { name: kernel.event_subscriber }
+
+    base.last_route.listener:
+        class: '%base.last_route.listener.class%'
+        arguments:
+            - '@base.routing.helper'
+        tags:
+            - { name: kernel.event_subscriber }
 
     base.locale.listener:
         class: '%base.locale.listener.class%'
@@ -11,9 +26,8 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    base.last_route.listener:
-        class: '%base.last_route.listener.class%'
-        arguments:
-            - '@base.routing.helper'
+    base.toggle.listener:
+        class: '%base.toggle.listener.class%'
+        parent: base.service
         tags:
             - { name: kernel.event_subscriber }

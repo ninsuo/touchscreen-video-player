@@ -13,13 +13,13 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>{{ 'admin.users.id' | trans }}</th>
-                    <th>{{ 'admin.users.network' | trans }}</th>
-                    <th>{{ 'admin.users.nickname' | trans }}</th>
-                    <th>{{ 'admin.users.contact' | trans }}</th>
+                    <th>{{ macros.orderBy(orderBy, 'id', 'admin.users.id') }}</th>
+                    <th>{{ macros.orderBy(orderBy, 'resourceOwner', 'admin.users.network') }}</th>
+                    <th>{{ macros.orderBy(orderBy, 'nickname', 'admin.users.nickname') }}</th>
+                    <th>{{ macros.orderBy(orderBy, 'contact', 'admin.users.contact') }}</th>
                     <th>{{ 'admin.users.actions' | trans }}</th>
-                    <th>{{ 'admin.users.frozen' | trans }}</th>
-                    <th>{{ 'admin.users.admin' | trans }}</th>
+                    <th>{{ macros.orderBy(orderBy, 'isEnabled', 'admin.users.enabled') }}</th>
+                    <th>{{ macros.orderBy(orderBy, 'isAdmin', 'admin.users.admin') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,36 +30,33 @@
                             <img class="oauth-image" src="{{ asset('bundles/base/img/oauth/' ~ user.resourceOwner ~ '-small.png') }}" alt=""/> {{ user.resourceOwner|title }}
                         </td>
                         <td>
-                            {{
-                                include('BaseBundle::editOnClick.html.twig', {
-                                    'text': macros.user(user),
-                                    'endpoint': path('admin_users_edit_nickname', {id: user.id}),
-                                })
-                            }}
+                            {% if auto_updated %}
+                                {{ macros.user(user) }}
+                            {% else %}
+                                {{
+                                    include('BaseBundle::editOnClick.html.twig', {
+                                        'text': macros.user(user),
+                                        'endpoint': path('_admin_users_edit_nickname', {id: user.id}),
+                                    })
+                                }}
+                            {% endif %}
                         </td>
                         <td>
-                            {{
-                                include('BaseBundle::editOnClick.html.twig', {
-                                    'text': user.contact,
-                                    'endpoint': path('admin_users_edit_contact', {id: user.id}),
-                                })
-                            }}
+                            {% if auto_updated %}
+                                {{ user.contact }}
+                            {% else %}
+                                {{
+                                    include('BaseBundle::editOnClick.html.twig', {
+                                        'text': user.contact,
+                                        'endpoint': path('_admin_users_edit_contact', {id: user.id}),
+                                    })
+                                }}
+                            {% endif %}
                         </td>
-
                         <td>
                             <a
-                                href="{{ path('admin_users_groups', {userId: user.id}) }}"
+                                href="{{ path('admin_users_manage', {id: user.id}) }}"
                                 class="btn btn-warning btn-sm">{{ 'admin.users.manage' | trans }}</a>
-                        </td>
-                        <td>
-                            <input
-                                type="checkbox"
-                                class="domajax change"
-                                data-endpoint="{{ path('admin_users_toggle_frozen', {token: csrf_token('administration')}) }}"
-                                data-input-attr="id"
-                                data-id="{{ user.id }}"
-                                {% if user.isFrozen %}checked{% endif %}
-                            />
                         </td>
                         <td>
                             {% if me == user.id %}
@@ -68,7 +65,29 @@
                                 <input
                                     type="checkbox"
                                     class="domajax change"
-                                    data-endpoint="{{ path('admin_users_toggle_admin', {token: csrf_token('administration')}) }}"
+                                    data-toggle="toggle"
+                                    data-on="{{ 'base.button.on'|trans }}"
+                                    data-off="{{ 'base.button.off'|trans }}"
+                                    data-style="ios"
+                                    data-endpoint="{{ path('_admin_users_toggle_enabled', {token: csrf_token('administration')}) }}"
+                                    data-input-attr="id"
+                                    data-id="{{ user.id }}"
+                                    {% if user.isEnabled %}checked{% endif %}
+                                />
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if me == user.id %}
+                                &nbsp;
+                            {% else %}
+                                <input
+                                    type="checkbox"
+                                    class="domajax change"
+                                    data-toggle="toggle"
+                                    data-on="{{ 'base.button.on'|trans }}"
+                                    data-off="{{ 'base.button.off'|trans }}"
+                                    data-style="ios"
+                                    data-endpoint="{{ path('_admin_users_toggle_admin', {token: csrf_token('administration')}) }}"
                                     data-input-attr="id"
                                     data-id="{{ user.id }}"
                                     {% if user.isAdmin %}checked{% endif %}

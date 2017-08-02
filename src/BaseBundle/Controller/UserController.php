@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type;
+use Symfony\Component\Validator\Constraints;
 
 class UserController extends BaseController
 {
@@ -70,13 +72,13 @@ class UserController extends BaseController
     /**
      * User unsubscription confirmation.
      *
-     * @Route("/unsuscribe", name="unsuscribe")
+     * @Route("/unsubscribe", name="unsubscribe")
      *
      * @param Request $request
      *
      * @return RedirectResponse|Response
      */
-    public function unsuscribeAction(Request $request)
+    public function unsubscribeAction(Request $request)
     {
         if (!$this->getParameter('accounts_removable') || !$this->getUser()) {
             throw $this->createNotFoundException();
@@ -85,8 +87,8 @@ class UserController extends BaseController
         // CRSF
         $form = $this
            ->createFormBuilder()
-           ->add('submit', 'submit', [
-               'label' => 'base.unsuscribe.confirm',
+           ->add('submit', Type\SubmitType::class, [
+               'label' => 'base.unsubscribe.confirm',
                'attr'  => [
                    'class' => 'btn btn-danger',
                ],
@@ -108,7 +110,7 @@ class UserController extends BaseController
             return $this->goBack($request);
         }
 
-        return $this->render('BaseBundle:User:unsuscribe.html.twig', [
+        return $this->render('BaseBundle:User:unsubscribe.html.twig', [
                'form' => $form->createView(),
         ]);
     }

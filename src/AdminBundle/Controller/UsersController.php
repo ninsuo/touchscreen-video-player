@@ -2,7 +2,8 @@
 
 namespace AdminBundle\Controller;
 
-use AppBundle\Base\BaseController;
+use BaseBundle\Base\BaseController;
+use BaseBundle\Entity\Group;
 use BaseBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -41,13 +42,34 @@ class UsersController extends BaseController
         }
 
         return [
-            'pager' => $this->getPager($request, $qb),
-            'me'    => $this->getUser()->getId(),
+            'orderBy'      => $this->orderBy($qb, User::class, 'u.nickname', 'ASC', 'test'),
+            'pager'        => $this->getPager($qb),
+            'me'           => $this->getUser()->getId(),
+            'auto_updated' => $this->getParameter('user_info_auto_update'),
         ];
     }
 
     /**
-     * @Route("/toggle/admin/{token}", name="admin_users_toggle_admin")
+     * @Route("/toggle/enabled/{token}", name="_admin_users_toggle_enabled")
+     * @Template()
+     */
+    public function toggleEnabledAction(Request $request, $token)
+    {
+        $this->checkCsrfToken('administration', $token);
+
+        $em   = $this->getManager();
+        $user = $this->getEntityById('BaseBundle:User', $request->request->get('id'));
+
+        $user->setIsEnabled(1 - intval($user->isEnabled()));
+
+        $em->persist($user);
+        $em->flush();
+
+        return new Response();
+    }
+
+    /**
+     * @Route("/toggle/admin/{token}", name="_admin_users_toggle_admin")
      * @Template()
      */
     public function toggleAdminAction(Request $request, $token)
@@ -66,38 +88,23 @@ class UsersController extends BaseController
     }
 
     /**
-     * @Route("/toggle/frozen/{token}", name="admin_users_toggle_frozen")
-     * @Template()
-     */
-    public function toggleFrozenAction(Request $request, $token)
-    {
-        $this->checkCsrfToken('administration', $token);
-
-        $em   = $this->getManager();
-        $user = $this->getEntityById('BaseBundle:User', $request->request->get('id'));
-
-        $user->setIsFrozen(1 - intval($user->isFrozen()));
-
-        $em->persist($user);
-        $em->flush();
-
-        return new Response();
-    }
-
-    /**
-     * @Route("/edit/contact/{id}", name="admin_users_edit_contact")
+     * @Route("/edit/contact/{id}", name="_admin_users_edit_contact")
      * @Template("BaseBundle::editOnClick.html.twig")
      */
     public function _editContactAction(Request $request, $id)
     {
         $manager = $this->getManager('BaseBundle:User');
 
+        if ($this->getParameter('user_info_auto_update')) {
+            throw $this->createNotFoundException();
+        }
+
         $entity = $manager->findOneById($id);
         if (!$entity) {
             throw $this->createNotFoundException();
         }
 
-        $endpoint = $this->generateUrl('admin_users_edit_contact', ['id' => $id]);
+        $endpoint = $this->generateUrl('_admin_users_edit_contact', ['id' => $id]);
 
         $form = $this
            ->createNamedFormBuilder("edit-contact-{$id}", Type\FormType::class, $entity, [
@@ -137,19 +144,23 @@ class UsersController extends BaseController
     }
 
     /**
-     * @Route("/edit/nickname/{id}", name="admin_users_edit_nickname")
+     * @Route("/edit/nickname/{id}", name="_admin_users_edit_nickname")
      * @Template("BaseBundle::editOnClick.html.twig")
      */
     public function _editNicknameAction(Request $request, $id)
     {
         $manager = $this->getManager('BaseBundle:User');
 
+        if ($this->getParameter('user_info_auto_update')) {
+            throw $this->createNotFoundException();
+        }
+
         $entity = $manager->findOneById($id);
         if (!$entity) {
             throw $this->createNotFoundException();
         }
 
-        $endpoint = $this->generateUrl('admin_users_edit_nickname', ['id' => $id]);
+        $endpoint = $this->generateUrl('_admin_users_edit_nickname', ['id' => $id]);
 
         $form = $this
            ->createNamedFormBuilder("edit-nickname-{$id}", Type\FormType::class, $entity, [
@@ -184,6 +195,52 @@ class UsersController extends BaseController
 
         return [
             'form' => $form->createView(),
+        ];
+    }
+
+    /**
+     * @Route("/manage/{id}", name="admin_users_manage")
+     * @Template()
+     */
+    public function manageAction(Request $request, $id)
+    {
+        $user = $this->getEntityById('BaseBundle:User', $id);
+
+        return [
+            'user'      => $user,
+            'groupsIn'  => $this->_getUserGroups($request, $id, 'group-in'),
+            'groupsOut' => $this->_getUserGroups($request, $id, 'group-out'),
+        ];
+    }
+
+    protected function _getUserGroups(Request $request, $userId, $prefix)
+    {
+        $filter = $request->query->get("filter-{$prefix}");
+
+        $qb = $this
+           ->getManager()
+           ->createQueryBuilder()
+           ->select('g')
+           ->from(Group::class, 'g')
+           ->setParameter('userId', $userId)
+        ;
+
+        if ('group-in' == $prefix) {
+            $qb->where(':userId MEMBER OF g.users');
+        } else {
+            $qb->where(':userId NOT MEMBER OF g.users');
+        }
+
+        if ($filter) {
+            $qb
+               ->andWhere('g.name LIKE :criteria')
+               ->setParameter('criteria', '%'.$filter.'%')
+            ;
+        }
+
+        return [
+            'order' => $this->orderBy($qb, Group::class, 'g.name', 'ASC', $prefix),
+            'pager' => $this->getPager($qb, $prefix),
         ];
     }
 }

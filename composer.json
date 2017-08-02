@@ -2,7 +2,7 @@
     "name": "ninsuo/quickstart",
     "license": "MIT",
     "type": "project",
-    "description": "An empty Symfony2 project that provides lots of ready-to-use tools for quick & not-so-dirty developments",
+    "description": "An empty Symfony3 project that provides lots of ready-to-use tools for quick & not-so-dirty developments",
     "autoload": {
         "psr-4": {
             "": "src/"
@@ -13,7 +13,7 @@
         ]
     },
     "require": {
-        "php": ">=5.9.0",
+        "php": ">=5.5.9",
         "twig/twig": "^1.0",
         "symfony/symfony": "^3.0",
         "doctrine/orm": "^2.5",
@@ -22,7 +22,7 @@
         "twig/extensions": "~1.0",
         "symfony/assetic-bundle": "~2.3",
         "symfony/swiftmailer-bundle": "^2.3",
-        "symfony/monolog-bundle": "^2.8",
+        "symfony/monolog-bundle": "^3",
         "jms/i18n-routing-bundle": "^2.0",
         "symfony/polyfill-apcu": "^1.0",
         "sensio/distribution-bundle": "^5.0",
@@ -34,7 +34,6 @@
         "hwi/oauth-bundle": "dev-master",
         "jms/translation-bundle": "~1.1",
         "knplabs/knp-menu-bundle": "^2.0",
-        "smart-core/accelerator-cache-bundle": "~1",
         "easycorp/easy-security-bundle": "^1.0",
         "egeloen/ckeditor-bundle": "^4.0",
         "exercise/htmlpurifier-bundle": "^0.2.3",
@@ -42,7 +41,11 @@
         "white-october/pagerfanta-bundle": "^1.0",
         "nabil1337/case-helper": "dev-master",
         "excelwebzone/recaptcha-bundle": "^1.4",
-        "friendsofphp/php-cs-fixer": "^2.0"
+        "friendsofphp/php-cs-fixer": "^2.0",
+        "leafo/scssphp": "^0.6.6",
+        "patchwork/jsqueeze": "^2.0",
+        "ninsuo/symfony-collection": "^2",
+        "symfony/web-server-bundle": "^3.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -54,25 +57,27 @@
         ],
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Fuz\\Symfony\\Collection\\ScriptHandler::postInstall",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
             "Braincrafted\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::install",
-            "SmartCore\\Bundle\\AcceleratorCacheBundle\\Composer\\ScriptHandler::clearCache",
-            "php app/console assetic:dump web/"
+            "php app/console assetic:dump web/",
+            "php app/console assets:install web --symlink"
         ],
         "post-update-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Fuz\\Symfony\\Collection\\ScriptHandler::postUpdate",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
             "Braincrafted\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::install",
-            "SmartCore\\Bundle\\AcceleratorCacheBundle\\Composer\\ScriptHandler::clearCache",
-            "php app/console assetic:dump web/"
+            "php app/console assetic:dump web/",
+            "php app/console assets:install web --symlink"
         ]
     },
     "extra": {

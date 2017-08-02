@@ -1,7 +1,11 @@
 base:
     button:
+        add: 'Add'
         back: 'Go back'
         home: 'Go back to the homepage'
+        remove: 'Remove'
+        on: On
+        off: Off
     changepassword:
         title: 'Change password'
     ckeditor:
@@ -34,9 +38,7 @@ base:
             title: '%entity% creation'
         update:
             success: 'Entry updated successfully.'
-    description: ''
     error:
-        back_sentence: 'Use the Back button, the navigation menu or click on the Home button to continue.'
         403:
             explain: 'You need to be logged-on or/and do not have the required privileges to access this resource.'
             title: 'Permission denied'
@@ -46,6 +48,9 @@ base:
         500:
             explain: 'If you got to that page, this is because something crashed somewhere.'
             title: 'It looks like something went wrong.'
+        back_sentence: 'Use the Back button, the navigation menu or click on the Home button to continue.'
+        user_email_restriction: 'Your email %email% doesn''t match with the website restrictions.'
+        user_not_enabled: "Your account is not enabled yet, give your user id #%id% to this application's administrator."
     form:
         duplicate_error: 'This %entry% already exist.'
     locale:
@@ -74,13 +79,11 @@ base:
         go_to: 'Go to page:'
         go: 'Go'
     search: Search...
-    site:
-        description: 'An empty Symfony project that provides lots of ready-to-use tools for quick and not-so-dirty development'
-        default_title: 'Light, write down your mind'
+    share: 'Share:'
     undefined: Undefined
-    unsuscribe:
+    unsubscribe:
         confirm: Confirm
         explain: 'All data associated with your account will be'
         removed: removed
-        title: 'You are going to unsuscribe.'
+        title: 'You are going to unsubscribe.'
     wait: 'Please wait...'

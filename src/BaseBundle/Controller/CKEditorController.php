@@ -12,10 +12,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 
+/**
+ * @Route("/ckeditor")
+ */
 class CKEditorController extends BaseController
 {
     /**
-     * @Route("/ckeditor/browse", name="ckeditor_browse")
+     * @Route("/browse", name="ckeditor_browse")
      * @Method({"GET"})
      * @Template("BaseBundle:CKEditor:gallery.html.twig")
      */
@@ -25,7 +28,7 @@ class CKEditorController extends BaseController
         $funcNum  = $request->query->get('CKEditorFuncNum');
         $langCode = $request->query->get('langCode');
 
-        if (!$this->isGranted('ROLE_ADMIN') || $this->isGranted('GROUP_EDITOR')) {
+        if (!$this->isGranted($this->getParameter('role_file_upload'))) {
             throw $this->createAccessDeniedException();
         }
 
@@ -35,7 +38,7 @@ class CKEditorController extends BaseController
 
         $dir    = $this->getParameter('kernel.root_dir').'/../web/upload/ckeditor/';
         $images = array_map('basename', glob("{$dir}/*.png"));
-        $pager  = $this->getPager($request, $images);
+        $pager  = $this->getPager($images);
 
         return [
             'CKEditor' => $CKEditor,
@@ -49,13 +52,13 @@ class CKEditorController extends BaseController
      *
      * @see http://stackoverflow.com/a/25181208/731138
      *
-     * @Route("/ckeditor/upload", name="ckeditor_upload")
+     * @Route("/upload", name="ckeditor_upload")
      * @Method({"POST"})
      * @Template("BaseBundle:CKEditor:callback.html.twig")
      */
     public function uploadAction(Request $request)
     {
-        if (!$this->isGranted('ROLE_ADMIN') || $this->isGranted('GROUP_EDITOR')) {
+        if (!$this->isGranted($this->getParameter('role_file_upload'))) {
             throw $this->createAccessDeniedException();
         }
 
@@ -91,7 +94,7 @@ class CKEditorController extends BaseController
     }
 
     /**
-     * @Route("/ckeditor/remove/{token}/{name}", name="ckeditor_remove")
+     * @Route("/remove/{token}/{name}", name="ckeditor_remove")
      * @Method({"GET"})
      * @Template("BaseBundle:CKEditor:gallery.html.twig")
      */
@@ -99,7 +102,7 @@ class CKEditorController extends BaseController
     {
         $this->checkCsrfToken('gallery', $token);
 
-        if (!$this->isGranted('ROLE_ADMIN') || $this->isGranted('GROUP_EDITOR')) {
+        if (!$this->isGranted($this->getParameter('role_file_upload'))) {
             throw $this->createAccessDeniedException();
         }
 

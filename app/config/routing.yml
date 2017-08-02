@@ -36,8 +36,3 @@ app:
     resource: "@AppBundle/Controller/"
     type:     "annotation"
     prefix:   /
-
-digi_security:
-    resource: "@DigiLoginBundle/Controller/"
-    type:  "annotation"
-    prefix: /digilogin

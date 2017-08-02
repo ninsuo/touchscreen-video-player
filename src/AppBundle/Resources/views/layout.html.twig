@@ -1,1 +1,26 @@
 {% extends 'BaseBundle::layout.html.twig' %}
+
+{% block js %}
+
+    {{ parent() }}
+
+    {% javascripts filter="?jsqueeze" output="js/app.js"
+        "bundles/app/js/video.js"
+        "bundles/app/js/videojs-ie8.min.js"
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}
+
+{% block css %}
+
+    {{  parent() }}
+
+    {% stylesheets filter="scssphp" output="css/app.css"
+        "bundles/app/css/video-js.css"
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+{% endblock %}

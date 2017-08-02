@@ -2,30 +2,31 @@ admin:
     groups:
         id: ID
         name: Name
+        notes: Notes
         create: Create a new group
+        created: New group created successfully.
         group: group
         actions: Actions
         delete: Delete
         delete_confirm: Are you sure that you want to remouve group "%group%"?
-        manage: Manage group members
+        deleted: 'Group #%id% removed successfully.'
+        manage: Users
+    groups_manage:
+        users: Users
+        title: Group %name%'s users
+        users_in: "%name%'s users:"
+        users_out: "Other users:"
     users:
         id: ID
         network: Network
         nickname: Name
         contact: Email
+        enabled: Enabled
         admin: Admin
-        frozen: Frozen
         actions: Actions
-        manage: Manage member groups
-    users_groups:
-        title: %name%'s groups
-        in: 'Groups where %name% is:'
-        out: "Groups where %name% isn't:"
-        add: Add in group
-        remove: Remove from group
-    groups_users:
-        title: Members in group %name%
-        in: 'Members in %name%:'
-        out: "Members not in %name%:"
-        add: Add in group
-        remove: Remove from group
+        manage: Groups
+    users_manage:
+        groups: Groups
+        title: User %name%'s groups
+        groups_in: "%name%'s groups:"
+        groups_out: "Other groups:"

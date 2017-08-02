@@ -17,7 +17,6 @@ framework:
         version: 1.0.0
     default_locale:  "%locale%"
     trusted_hosts:   ~
-    trusted_proxies: ~
     session:
         handler_id:  ~
     fragments:       ~
@@ -28,26 +27,41 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form_themes:
+        - "BaseBundle::theme.html.twig"
         - "BraincraftedBootstrapBundle:Form:bootstrap.html.twig"
     globals:
         fuz:
-            site_brand: "%site_brand%"
-            site_description: "%site_description%"
-            site_default_title: "%site_default_title%"
-            supported_locales: "%supported_locales%"
             menu_left: "%menu_left_enabled%"
             menu_right: "%menu_right_enabled%"
+            services:
+                GitHub: "%github_enabled%"
+                Stack Exchange: "%stack_enabled%"
+                Google: "%google_enabled%"
+                Twitter: "%twitter_enabled%"
+                Facebook: "%facebook_enabled%"
+            site:
+                brand: "%site_brand%"
+                title: "%site_title%"
+                description: "%site_description%"
+                keywords: "%site_keywords%"
+                author: "%site_author%"
+            supported_locales: "%supported_locales%"
 
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ]
+    bundles:
+        - BaseBundle
+        - AppBundle
     filters:
+       cssrewrite: ~
        lessphp:
             file: "%kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php"
             apply_to: '.less$'
-       cssrewrite: ~
+       jsqueeze: ~
+       scssphp:
+            formatter: 'Leafo\ScssPhp\Formatter\Compressed'
 
 # Doctrine Configuration
 doctrine:
@@ -58,6 +72,7 @@ doctrine:
         dbname:   "%database_name%"
         user:     "%database_user%"
         password: "%database_password%"
+        path:     "%database_path%"
         charset:  "utf8mb4"
 
     orm:
@@ -82,13 +97,8 @@ braincrafted_bootstrap:
     auto_configure:
       knp_menu: false
 
-# cache cleaning
-accelerator_cache:
-    host: "%site_url%"
-    web_dir: "%kernel.root_dir%/../web"
-    mode: "curl"
-
 # HWIOAuthBundle Configuration
+# Don't forget to add new resource owners to twig > globals > services configuration
 hwi_oauth:
     firewall_names: ["main"]
     resource_owners:
@@ -135,5 +145,6 @@ knp_menu:
 
 # Recaptcha
 ewz_recaptcha:
-    public_key:  %recaptcha_public%
-    private_key: %recaptcha_private%
+    public_key:  "%recaptcha_public%"
+    private_key: "%recaptcha_private%"
+

@@ -2,20 +2,20 @@
 parameters:
 
     # General
-    site_url: http://127.0.0.1:8000
-    site_brand: Light
-    site_description: base.site.description
-    site_default_title: base.site.default_title
+    site_brand: app.site.brand
+    site_description: app.site.description
+    site_title: app.site.title
+    site_keywords: app.site.keywords
+    site_author: app.site.author
 
-    # Database
+    # Database (just put pdo_sqlite to switch)
     database_driver:   pdo_mysql
     database_host:     127.0.0.1
     database_port:     ~
     database_name:     fuz
     database_user:     root
     database_password: ~
-    # You should uncomment this if you want use pdo_sqlite
-    # database_path: "%kernel.root_dir%/data.db3"
+    database_path:     '%kernel.root_dir%/data.db3'
 
     # Emails
     mailer_transport:    smtp
@@ -39,23 +39,28 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     # GitHub Login: https://github.com/settings/developers
+    github_enabled: true
     github_client_id: <your client id>
     github_secret:    <your secret>
 
     # StackExchange Login: https://stackapps.com/apps/oauth/
+    stack_enabled: true
     stack_client_id: <your client id>
     stack_secret:    <your secret>
     stack_key:       <your key>
 
     # Google Login: https://console.developers.google.com/project
+    google_enabled: true
     google_client_id: <your client id>
     google_secret:    <your secret>
 
     # Twitter Login: https://apps.twitter.com/
+    twitter_enabled: true
     twitter_client_id: <your client id>
     twitter_secret:    <your secret>
 
     # Facebook Login: https://developers.facebook.com/apps/
+    facebook_enabled: true
     facebook_client_id: <your client id>
     facebook_secret:    <your secret>
 
@@ -69,3 +74,15 @@ parameters:
     # Recaptcha
     recaptcha_public: <your recaptcha site key>
     recaptcha_private: <your recaptcha secret>
+
+    # User can only join if he has an email that matches the following regex (ex: '!@example\.org$!')
+    user_email_restriction: ~
+
+    # User are automatically enabled (true) / an admin need to manually enable them after registration (false)
+    user_auto_enabled: true
+
+    # Admin can edit user information (true) / User information are updated from provider at login
+    user_info_auto_update: true
+
+    # Misc
+    role_file_upload: ROLE_ADMIN

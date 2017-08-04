@@ -17,9 +17,7 @@
 
     <div class="row">
         <div class="col-md-8">
-            {#
-            <h3>{{ 'app.player.player'|trans }}</h3>
-            #}
+
             <div class="text-center">
                 <video id="player" class="video-js" controls preload="auto" width="360" height="240" poster="{{ thumbnail }}" data-setup="{}">
                     <source src="{{ asset('video/' ~ link) }}" type='video/mp4'>
@@ -37,8 +35,56 @@
         </div>
         <div class='col-md-4'>
 
-           <a class="btn btn-primary video-button video-control enter-fullscreen" href="#">{{ 'app.player.play'|trans }}</a>
+            <div id="progression-data" class="text-center" style="font-size: 25px;">
+                <span id="progression" class="offset">0</span>%
+            </div>
 
+            <div class="row">
+
+                <div class="col-md-4">
+                    <a class="btn btn-default progression-editor video-button video-control" href="#">1</a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-default progression-editor video-button video-control" href="#">2</a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-default progression-editor video-button video-control" href="#">3</a>
+                </div>
+
+                <div class="col-md-4">
+                    <a class="btn btn-default progression-editor video-button video-control" href="#">4</a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-default progression-editor video-button video-control" href="#">5</a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-default progression-editor video-button video-control" href="#">6</a>
+                </div>
+
+                <div class="col-md-4">
+                    <a class="btn btn-default progression-editor video-button video-control" href="#">7</a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-default progression-editor video-button video-control" href="#">8</a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-default progression-editor video-button video-control" href="#">9</a>
+                </div>
+
+                <div class="col-md-4">
+                    <a class="btn btn-danger video-button video-control" href="#">
+                        <span class="glyphicon progression-cancel glyphicon-remove-circle" aria-hidden="true"></span>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-default progression-editor video-button video-control" href="#">0</a>
+                </div>
+                <div class="col-md-4">
+                    <a class="btn btn-success video-button video-control enter-fullscreen" href="#">
+                        <span class="glyphicon progression-change glyphicon-ok-circle" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -48,11 +94,65 @@
 
     <script type="text/javascript">
 
+        var player = videojs('player');
+
+        $('.progression-editor').click(function() {
+           var current = $('#progression');
+           var progress = current.html();
+           var clicked = $(this).html();
+
+           if (progress == 0 && clicked == 0) {
+               return ;
+           }
+
+           if (progress == 0 && clicked > 0) {
+               current.html(clicked);
+               return ;
+           }
+
+           if (progress.length == 1) {
+              current.html('' + progress + clicked);
+              return ;
+           }
+
+           if (progress.length == 2) {
+               current.html('' + progress[1] + clicked);
+               return ;
+           }
+        });
+
+        $('.progression-cancel').click(function() {
+           $('#progression').html('0');
+           player.currentTime(0);
+        });
+
         $('.enter-fullscreen').click(function(e) {
             e.preventDefault();
-            $('.vjs-play-control').click();
+
+            player.currentTime($('#progression').html() * player.duration() / 100);
+
+            if (player.paused()) {
+                $('.vjs-play-control').click();
+            }
             $('.vjs-fullscreen-control').click();
         });
+
+        setInterval(function() {
+
+            $('#progression-data').removeClass('text-danger');
+
+            if (!player.paused()) {
+                $('#progression-data').addClass('text-danger');
+                var current = player.currentTime();
+                var total = player.duration();
+                var pct = Math.floor(current * 100 / total);
+
+                if (pct !== $('#progression').html()) {
+                    $('#progression').html(pct);
+                }
+            }
+
+        }, 1000);
 
     </script>
 

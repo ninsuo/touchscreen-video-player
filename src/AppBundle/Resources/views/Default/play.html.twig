@@ -15,7 +15,6 @@
                         preload="auto"
                         width="360"
                         height="240"
-                        autoplay
                         data-setup='{}'
                 >
                     <source src="{{ asset('video/' ~ link) }}" type='video/mp4'>
@@ -37,12 +36,11 @@
                 <div class="col-xs-6">
                     <div id="offset-data" class="text-left"  style="font-size: 25px;">
                         <span id="offset" class="offset">0</span>%
-                        <div id="initial-offset" class="hidden">{{ app.request.query.get('p') ?: '0' }}</div>
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div id="progression-data" class="text-right" style="font-size: 25px;">
-                        <span id="progression" class="offset">{{ app.request.query.get('p') ?: '0' }}</span>%
+                        <span id="progression" class="offset">0</span>%
                     </div>
                 </div>
             </div>
@@ -136,19 +134,16 @@
             $('.enter-fullscreen').click(function(e) {
                 e.preventDefault();
 
-                if ($('#offset').html() != $('#initial-offset').html()) {
-                    var percent = $('#offset').html();
+                var percent = $('#offset').html();
 
-                    var duration = $('div.vjs-duration-display').html()
-                        .replace('<span class="vjs-control-text">Duration Time</span>', '')
-                        .split(':');
+                var duration = $('div.vjs-duration-display').html()
+                    .replace('<span class="vjs-control-text">Duration Time</span>', '')
+                    .split(':');
 
-                    var seconds = Math.floor(duration[0]) * 60 + Math.floor(duration[1]);
-                    var offset = Math.floor(seconds * percent / 100);
+                var seconds = Math.floor(duration[0]) * 60 + Math.floor(duration[1]);
+                var offset = Math.floor(seconds * percent / 100);
 
-                    document.location = '{{ path('video_play', {video: video}) }}?t=' + offset + '&p=' + percent;
-                    return ;
-                }
+                videojs('player').currentTime(offset);
 
                 if (!$('button.vjs-play-control.vjs-control.vjs-button').hasClass('vjs-playing')) {
                     $('.vjs-play-control').click();

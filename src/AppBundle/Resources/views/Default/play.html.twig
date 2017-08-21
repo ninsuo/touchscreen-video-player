@@ -83,65 +83,69 @@
 
     <script type="text/javascript">
 
-        var player = videojs('player');
+        $(document).ready(function() {
 
-        $('.progression-editor').click(function() {
-           var current = $('#progression');
-           var progress = current.html();
-           var clicked = $(this).html();
+            var player = videojs('player');
 
-           if (progress == 0 && clicked == 0) {
-               return ;
-           }
+            $('.progression-editor').click(function() {
+                var current = $('#progression');
+                var progress = current.html();
+                var clicked = $(this).html();
 
-           if (progress == 0 && clicked > 0) {
-               current.html(clicked);
-               return ;
-           }
-
-           if (progress.length == 1) {
-              current.html('' + progress + clicked);
-              return ;
-           }
-
-           if (progress.length == 2) {
-               current.html('' + progress[1] + clicked);
-               return ;
-           }
-        });
-
-        $('.progression-cancel').click(function() {
-           $('#progression').html('0');
-           player.currentTime(0);
-        });
-
-        $('.enter-fullscreen').click(function(e) {
-            e.preventDefault();
-
-            player.currentTime($('#progression').html() * player.duration() / 100);
-
-            if (player.paused()) {
-                $('.vjs-play-control').click();
-            }
-            $('.vjs-fullscreen-control').click();
-        });
-
-        setInterval(function() {
-
-            $('#progression-data').removeClass('text-danger');
-
-            if (!player.paused()) {
-                $('#progression-data').addClass('text-danger');
-                var current = player.currentTime();
-                var total = player.duration();
-                var pct = Math.floor(current * 100 / total);
-
-                if (pct !== $('#progression').html()) {
-                    $('#progression').html(pct);
+                if (progress == 0 && clicked == 0) {
+                    return ;
                 }
-            }
 
-        }, 1000);
+                if (progress == 0 && clicked > 0) {
+                    current.html(clicked);
+                    return ;
+                }
+
+                if (progress.length == 1) {
+                    current.html('' + progress + clicked);
+                    return ;
+                }
+
+                if (progress.length == 2) {
+                    current.html('' + progress[1] + clicked);
+                    return ;
+                }
+            });
+
+            $('.progression-cancel').click(function() {
+                $('#progression').html('0');
+                player.currentTime(0);
+            });
+
+            $('.enter-fullscreen').click(function(e) {
+                e.preventDefault();
+
+                player.currentTime($('#progression').html() * player.duration() / 100);
+
+                if (player.paused()) {
+                    $('.vjs-play-control').click();
+                }
+                $('.vjs-fullscreen-control').click();
+            });
+
+            setInterval(function() {
+
+                $('#progression-data').removeClass('text-danger');
+
+                if (!player.paused()) {
+                    $('#progression-data').addClass('text-danger');
+                    var current = player.currentTime();
+                    var total = player.duration();
+                    var pct = Math.floor(current * 100 / total);
+
+                    if (pct !== $('#progression').html()) {
+                        $('#progression').html(pct);
+                    }
+                }
+
+            }, 1000);
+
+        });
 
     </script>
 

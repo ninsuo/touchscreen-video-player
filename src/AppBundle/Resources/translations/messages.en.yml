@@ -4,3 +4,8 @@ app:
         controls: Controls
         play: Play now!
     videos: Open Videos
+    unauthorized:
+        ip_not_whitelisted: 'Sorry, your ip is not whitelisted.'
+        enter_pin_code: 'To whitelist yourself, enter pin code'
+        tries_remaining: '%tries% tries remaining'
+        invalid_password: 'Invalid password!'

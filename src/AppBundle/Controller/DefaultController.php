@@ -2,9 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Ban;
+use AppBundle\Entity\Ip;
 use BaseBundle\Base\BaseController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
@@ -19,7 +23,7 @@ class DefaultController extends BaseController
     public function indexAction(Request $request)
     {
         if (!$this->isWhitelisted($request->getClientIp())) {
-            return $this->redirectToRoute('unauthorized');
+            return $this->forward('AppBundle:Default:unauthorized');
         }
 
         $videoDir = realpath($this->get('kernel')->getRootDir().'/../web/video/');
@@ -80,8 +84,49 @@ class DefaultController extends BaseController
      */
     public function unauthorizedAction(Request $request)
     {
+        $this->getManager('AppBundle:Ban')->clean();
+
+        $ip = $request->getClientIp();
+        $ban = $this->getManager('AppBundle:Ban')->findOneByIp(ip2long($ip));
+        $tries = $this->getParameter('tries') - ($ban ? $ban->getTries() : 0);
+
+        $form = $this->createNamedFormBuilder('code')
+            ->add('value', HiddenType::class)
+            ->add('submit', SubmitType::class)
+            ->getForm()
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && $tries > 0) {
+            if ($form->getData()['value'] == $this->getParameter('code')) {
+                $ipEntity = new Ip();
+                $ipEntity->setIp(ip2long($ip));
+                $this->getManager()->persist($ipEntity);
+                $this->getManager()->flush();
+
+                return $this->redirectToRoute('home');
+            } else {
+                if ($ban) {
+                    $ban->setTries($ban->getTries() + 1);
+                    $ban->setTimestamp(time());
+                } else {
+                    $ban = new Ban();
+                    $ban->setIp(ip2long($ip));
+                    $ban->setTries(1);
+                    $ban->setTimestamp(time());
+                }
+                $this->getManager()->persist($ban);
+                $this->getManager()->flush($ban);
+
+                $this->danger('app.unauthorized.invalid_password');
+
+                return $this->redirectToRoute('home');
+            }
+        }
+
         return [
-            'ip' => $request->getClientIp(),
+            'ip' => $ip,
+            'tries' => $tries,
+            'form' => $form->createView(),
         ];
     }
 }

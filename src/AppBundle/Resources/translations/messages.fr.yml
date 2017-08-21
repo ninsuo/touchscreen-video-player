@@ -4,3 +4,8 @@ app:
         controls: Contrôles
         fullscreen: Lancer maintenant!
     videos: Ouvrir les vidéos
+    unauthorized:
+        ip_not_whitelisted: 'Désolé, votre adresse IP n''est pas autorisée.'
+        enter_pin_code: 'Pour autoriser votre IP, merci d''entrer le code d''accès.'
+        tries_remaining: '%tries% essais restants'
+        invalid_password: 'Invalid password!'

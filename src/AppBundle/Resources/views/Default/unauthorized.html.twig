@@ -7,8 +7,98 @@
     <div class="text-center">
         <div class="h1">{{ ip }}</div>
         <br/>
-        <div class="h3">Sorry, your ip is not whitelisted.</div>
+        <div class="h3">{{ 'app.unauthorized.ip_not_whitelisted'|trans }}</div>
+
+        <br/><br/>
+
+        <div class="hidden">
+            {{ form(form) }}
+        </div>
+
+        <div id="progression-data" class="text-center" style="font-size: 25px;">
+            <span id="progression" class="offset">{{ 'app.unauthorized.enter_pin_code'|trans }}</span>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xs-4">
+                <a class="btn btn-default progression-editor video-button video-control" href="#">1</a>
+            </div>
+            <div class="col-xs-4">
+                <a class="btn btn-default progression-editor video-button video-control" href="#">2</a>
+            </div>
+            <div class="col-xs-4">
+                <a class="btn btn-default progression-editor video-button video-control" href="#">3</a>
+            </div>
+
+            <div class="col-xs-4">
+                <a class="btn btn-default progression-editor video-button video-control" href="#">4</a>
+            </div>
+            <div class="col-xs-4">
+                <a class="btn btn-default progression-editor video-button video-control" href="#">5</a>
+            </div>
+            <div class="col-xs-4">
+                <a class="btn btn-default progression-editor video-button video-control" href="#">6</a>
+            </div>
+
+            <div class="col-xs-4">
+                <a class="btn btn-default progression-editor video-button video-control" href="#">7</a>
+            </div>
+            <div class="col-xs-4">
+                <a class="btn btn-default progression-editor video-button video-control" href="#">8</a>
+            </div>
+            <div class="col-xs-4">
+                <a class="btn btn-default progression-editor video-button video-control" href="#">9</a>
+            </div>
+
+            <div class="col-xs-4">
+                <a class="btn btn-danger progression-cancel video-button video-control" href="#">
+                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                </a>
+            </div>
+            <div class="col-xs-4">
+                <a class="btn btn-default progression-editor video-button video-control" href="#">0</a>
+            </div>
+            <div class="col-xs-4">
+                <a class="btn btn-success video-button video-control progression-change" href="#">
+                    <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+
+        <div>{{ 'app.unauthorized.tries_remaining'|trans({'%tries%': tries}) }}</div>
+
     </div>
 
 {% endblock %}
 
+{% block script %}
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            var field = $('#{{ form.value.vars.id }}');
+
+            $('.progression-editor').click(function(e) {
+                e.preventDefault();
+                field.val(field.val() + '' + $(this).html());
+                $('#progression').html(field.val());
+            });
+
+            $('.progression-cancel').click(function(e) {
+                e.preventDefault();
+                field.val('');
+                $('#progression').html(field.val());
+            });
+
+            $('.progression-change').click(function(e) {
+                e.preventDefault();
+                $('#{{ form.submit.vars.id }}').click();
+            });
+
+        });
+
+    </script>
+
+{% endblock %}

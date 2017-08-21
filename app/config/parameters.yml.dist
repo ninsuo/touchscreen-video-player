@@ -86,3 +86,7 @@ parameters:
 
     # Misc
     role_file_upload: ROLE_ADMIN
+
+    # Video player
+    code: 0123456789
+    tries: 3

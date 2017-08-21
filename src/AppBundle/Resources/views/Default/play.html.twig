@@ -2,21 +2,10 @@
 
 {% block title %}{% endblock %}
 
-{% block css %}
-    {{ parent() }}
-    <link href="{{ asset('bundles/app/css/video-js.css') }}" rel="stylesheet">
-{% endblock %}
-
-{% block js %}
-    {{ parent() }}
-    <script src="{{ asset('bundles/app/js/videojs-ie8.min.js') }}"></script>
-    <script src="{{ asset('bundles/app/js/video.js') }}"></script>
-{% endblock %}
-
 {% block body %}
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-xs-8">
 
             <div class="text-center">
                 <video id="player" class="video-js" controls preload="auto" width="360" height="240" poster="{{ thumbnail }}" data-setup="{}">
@@ -33,7 +22,7 @@
             <a class="btn btn-primary video-back" href="{{ path('video_index', app.request.query.all) }}">{{ 'base.button.back'|trans }}</a>
 
         </div>
-        <div class='col-md-4'>
+        <div class='col-xs-4'>
 
             <div id="progression-data" class="text-center" style="font-size: 25px;">
                 <span id="progression" class="offset">0</span>%
@@ -41,45 +30,45 @@
 
             <div class="row">
 
-                <div class="col-md-4">
+                <div class="col-xs-4">
                     <a class="btn btn-default progression-editor video-button video-control" href="#">1</a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-4">
                     <a class="btn btn-default progression-editor video-button video-control" href="#">2</a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-4">
                     <a class="btn btn-default progression-editor video-button video-control" href="#">3</a>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-xs-4">
                     <a class="btn btn-default progression-editor video-button video-control" href="#">4</a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-4">
                     <a class="btn btn-default progression-editor video-button video-control" href="#">5</a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-4">
                     <a class="btn btn-default progression-editor video-button video-control" href="#">6</a>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-xs-4">
                     <a class="btn btn-default progression-editor video-button video-control" href="#">7</a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-4">
                     <a class="btn btn-default progression-editor video-button video-control" href="#">8</a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-4">
                     <a class="btn btn-default progression-editor video-button video-control" href="#">9</a>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-xs-4">
                     <a class="btn btn-danger video-button video-control" href="#">
                         <span class="glyphicon progression-cancel glyphicon-remove-circle" aria-hidden="true"></span>
                     </a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-4">
                     <a class="btn btn-default progression-editor video-button video-control" href="#">0</a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-4">
                     <a class="btn btn-success video-button video-control enter-fullscreen" href="#">
                         <span class="glyphicon progression-change glyphicon-ok-circle" aria-hidden="true"></span>
                     </a>

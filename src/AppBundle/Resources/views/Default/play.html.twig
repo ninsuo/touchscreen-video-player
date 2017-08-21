@@ -8,7 +8,16 @@
         <div class="col-xs-8">
 
             <div class="text-center">
-                <video id="player" class="video-js" controls preload="auto" width="360" height="240" poster="{{ thumbnail }}" data-setup="{}">
+                <video
+                        id="player"
+                        class="video-js"
+                        controls="true"
+                        preload="auto"
+                        width="360"
+                        height="240"
+                        autoplay
+                        data-setup='{}'
+                >
                     <source src="{{ asset('video/' ~ link) }}" type='video/mp4'>
                     <p class="vjs-no-js">
                         To view this video please enable JavaScript, and consider upgrading to a web browser that
@@ -24,53 +33,63 @@
         </div>
         <div class='col-xs-4'>
 
-            <div id="progression-data" class="text-center" style="font-size: 25px;">
-                <span id="progression" class="offset">0</span>%
+            <div class="row">
+                <div class="col-xs-6">
+                    <div id="offset-data" class="text-left"  style="font-size: 25px;">
+                        <span id="offset" class="offset">0</span>%
+                        <div id="initial-offset" class="hidden">{{ app.request.query.get('p') ?: '0' }}</div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div id="progression-data" class="text-right" style="font-size: 25px;">
+                        <span id="progression" class="offset">{{ app.request.query.get('p') ?: '0' }}</span>%
+                    </div>
+                </div>
             </div>
 
             <div class="row">
 
                 <div class="col-xs-4">
-                    <a class="btn btn-default progression-editor video-button video-control" href="#">1</a>
+                    <a class="btn btn-default offset-editor video-button video-control" href="#">1</a>
                 </div>
                 <div class="col-xs-4">
-                    <a class="btn btn-default progression-editor video-button video-control" href="#">2</a>
+                    <a class="btn btn-default offset-editor video-button video-control" href="#">2</a>
                 </div>
                 <div class="col-xs-4">
-                    <a class="btn btn-default progression-editor video-button video-control" href="#">3</a>
-                </div>
-
-                <div class="col-xs-4">
-                    <a class="btn btn-default progression-editor video-button video-control" href="#">4</a>
-                </div>
-                <div class="col-xs-4">
-                    <a class="btn btn-default progression-editor video-button video-control" href="#">5</a>
-                </div>
-                <div class="col-xs-4">
-                    <a class="btn btn-default progression-editor video-button video-control" href="#">6</a>
+                    <a class="btn btn-default offset-editor video-button video-control" href="#">3</a>
                 </div>
 
                 <div class="col-xs-4">
-                    <a class="btn btn-default progression-editor video-button video-control" href="#">7</a>
+                    <a class="btn btn-default offset-editor video-button video-control" href="#">4</a>
                 </div>
                 <div class="col-xs-4">
-                    <a class="btn btn-default progression-editor video-button video-control" href="#">8</a>
+                    <a class="btn btn-default offset-editor video-button video-control" href="#">5</a>
                 </div>
                 <div class="col-xs-4">
-                    <a class="btn btn-default progression-editor video-button video-control" href="#">9</a>
+                    <a class="btn btn-default offset-editor video-button video-control" href="#">6</a>
                 </div>
 
                 <div class="col-xs-4">
-                    <a class="btn btn-danger video-button video-control" href="#">
-                        <span class="glyphicon progression-cancel glyphicon-remove-circle" aria-hidden="true"></span>
+                    <a class="btn btn-default offset-editor video-button video-control" href="#">7</a>
+                </div>
+                <div class="col-xs-4">
+                    <a class="btn btn-default offset-editor video-button video-control" href="#">8</a>
+                </div>
+                <div class="col-xs-4">
+                    <a class="btn btn-default offset-editor video-button video-control" href="#">9</a>
+                </div>
+
+                <div class="col-xs-4">
+                    <a class="btn btn-danger offset-cancel video-button video-control" href="#">
+                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                     </a>
                 </div>
                 <div class="col-xs-4">
-                    <a class="btn btn-default progression-editor video-button video-control" href="#">0</a>
+                    <a class="btn btn-default offset-editor video-button video-control" href="#">0</a>
                 </div>
                 <div class="col-xs-4">
-                    <a class="btn btn-success video-button video-control enter-fullscreen" href="#">
-                        <span class="glyphicon progression-change glyphicon-ok-circle" aria-hidden="true"></span>
+                    <a class="btn btn-success offset-change video-button video-control enter-fullscreen" href="#">
+                        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
                     </a>
                 </div>
             </div>
@@ -85,46 +104,56 @@
 
         $(document).ready(function() {
 
-            var player = videojs('player');
-
-            $('.progression-editor').click(function() {
-                var current = $('#progression');
-                var progress = current.html();
+            $('.offset-editor').click(function() {
+                var current = $('#offset');
+                var offset = current.html();
                 var clicked = $(this).html();
 
-                if (progress == 0 && clicked == 0) {
+                if (offset == 0 && clicked == 0) {
                     return ;
                 }
 
-                if (progress == 0 && clicked > 0) {
+                if ((offset == 0 && clicked > 0) || offset.length > 2) {
                     current.html(clicked);
                     return ;
                 }
 
-                if (progress.length == 1) {
-                    current.html('' + progress + clicked);
+                if (offset.length == 1) {
+                    current.html('' + offset + clicked);
                     return ;
                 }
 
-                if (progress.length == 2) {
-                    current.html('' + progress[1] + clicked);
+                if (offset.length == 2) {
+                    current.html('' + offset[1] + clicked);
                     return ;
                 }
             });
 
-            $('.progression-cancel').click(function() {
-                $('#progression').html('0');
-                player.currentTime(0);
+            $('.offset-cancel').click(function() {
+                $('#offset').html('');
             });
 
             $('.enter-fullscreen').click(function(e) {
                 e.preventDefault();
 
-                player.currentTime($('#progression').html() * player.duration() / 100);
+                if ($('#offset').html() != $('#initial-offset').html()) {
+                    var percent = $('#offset').html();
 
-                if (player.paused()) {
+                    var duration = $('div.vjs-duration-display').html()
+                        .replace('<span class="vjs-control-text">Duration Time</span>', '')
+                        .split(':');
+
+                    var seconds = Math.floor(duration[0]) * 60 + Math.floor(duration[1]);
+                    var offset = Math.floor(seconds * percent / 100);
+
+                    document.location = '{{ path('video_play', {video: video}) }}?t=' + offset + '&p=' + percent;
+                    return ;
+                }
+
+                if (!$('button.vjs-play-control.vjs-control.vjs-button').hasClass('vjs-playing')) {
                     $('.vjs-play-control').click();
                 }
+
                 $('.vjs-fullscreen-control').click();
             });
 
@@ -132,15 +161,15 @@
 
                 $('#progression-data').removeClass('text-danger');
 
-                if (!player.paused()) {
+                if ($('button.vjs-play-control.vjs-control.vjs-button').hasClass('vjs-playing')) {
                     $('#progression-data').addClass('text-danger');
-                    var current = player.currentTime();
-                    var total = player.duration();
-                    var pct = Math.floor(current * 100 / total);
 
-                    if (pct !== $('#progression').html()) {
-                        $('#progression').html(pct);
+                    var progress = $('div.vjs-progress-holder.vjs-slider.vjs-slider-horizontal').attr('aria-valuenow');
+                    if (!progress) {
+                        progress = 0;
                     }
+
+                    $('#progression').html(progress);
                 }
 
             }, 1000);

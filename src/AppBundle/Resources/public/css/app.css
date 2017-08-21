@@ -55,3 +55,11 @@ img.gallery {
 .vjs-play-progress {
     height: 30px !important;
 }
+
+.vjs-default-skin.vjs-has-started .vjs-control-bar {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    bottom: -3.4em !important;
+    background-color: rgba(7, 20, 30, 1) !important;
+}

@@ -70,6 +70,7 @@ class DefaultController extends BaseController
         return [
             'link'      => $link = str_replace('../', '', $video).'.mp4',
             'thumbnail' => $link.'.png',
+            'video'     => $video,
         ];
     }
 

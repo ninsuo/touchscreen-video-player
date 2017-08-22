@@ -4,178 +4,27 @@
 
 {% block body %}
 
-    <div class="row">
-        <div class="col-xs-8">
-
-            <div class="text-center">
-                <video
-                        id="player"
-                        class="video-js"
-                        controls="true"
-                        preload="auto"
-                        width="360"
-                        height="240"
-                        autoplay
-                        data-setup='{}'
-                >
-                    <source src="{{ asset('video/' ~ link) }}" type='video/mp4'>
-                    <p class="vjs-no-js">
-                        To view this video please enable JavaScript, and consider upgrading to a web browser that
-                        <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-                    </p>
-                </video>
-            </div>
-
-            <br/>
-
-            <a class="btn btn-primary video-back" href="{{ path('video_index', app.request.query.all) }}">{{ 'base.button.back'|trans }}</a>
-
-        </div>
-        <div class='col-xs-4'>
-
-            <div class="row">
-                <div class="col-xs-6">
-                    <div id="offset-data" class="text-left"  style="font-size: 25px;">
-                        <span id="offset" class="offset">0</span>%
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <div id="progression-data" class="text-right" style="font-size: 25px;">
-                        <span id="progression" class="offset">0</span>%
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-
-                <div class="col-xs-4">
-                    <a class="btn btn-default offset-editor video-button video-control" href="#">1</a>
-                </div>
-                <div class="col-xs-4">
-                    <a class="btn btn-default offset-editor video-button video-control" href="#">2</a>
-                </div>
-                <div class="col-xs-4">
-                    <a class="btn btn-default offset-editor video-button video-control" href="#">3</a>
-                </div>
-
-                <div class="col-xs-4">
-                    <a class="btn btn-default offset-editor video-button video-control" href="#">4</a>
-                </div>
-                <div class="col-xs-4">
-                    <a class="btn btn-default offset-editor video-button video-control" href="#">5</a>
-                </div>
-                <div class="col-xs-4">
-                    <a class="btn btn-default offset-editor video-button video-control" href="#">6</a>
-                </div>
-
-                <div class="col-xs-4">
-                    <a class="btn btn-default offset-editor video-button video-control" href="#">7</a>
-                </div>
-                <div class="col-xs-4">
-                    <a class="btn btn-default offset-editor video-button video-control" href="#">8</a>
-                </div>
-                <div class="col-xs-4">
-                    <a class="btn btn-default offset-editor video-button video-control" href="#">9</a>
-                </div>
-
-                <div class="col-xs-4">
-                    <a class="btn btn-danger offset-cancel video-button video-control" href="#">
-                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
-                    </a>
-                </div>
-                <div class="col-xs-4">
-                    <a class="btn btn-default offset-editor video-button video-control" href="#">0</a>
-                </div>
-                <div class="col-xs-4">
-                    <a class="btn btn-success offset-change video-button video-control enter-fullscreen" href="#">
-                        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
+    <div class="text-center">
+        <video
+                id="player"
+                class="video-js"
+                controls="true"
+                preload="auto"
+                width="360"
+                height="240"
+                autoplay
+                data-setup='{}'
+        >
+            <source src="{{ asset('video/' ~ link) }}" type='video/mp4'>
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a web browser that
+                <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+            </p>
+        </video>
     </div>
 
-{% endblock %}
+    <br/>
 
-{% block script %}
-
-    <script type="text/javascript">
-
-        $(document).ready(function() {
-
-            $('.offset-editor').click(function(e) {
-                e.preventDefault();
-
-                var current = $('#offset');
-                var offset = current.html();
-                var clicked = $(this).html();
-
-                if (offset == 0 && clicked == 0) {
-                    return ;
-                }
-
-                if ((offset == 0 && clicked > 0) || offset.length > 2) {
-                    current.html(clicked);
-                    return ;
-                }
-
-                if (offset.length == 1) {
-                    current.html('' + offset + clicked);
-                    return ;
-                }
-
-                if (offset.length == 2) {
-                    current.html('' + offset[1] + clicked);
-                    return ;
-                }
-            });
-
-            $('.offset-cancel').click(function(e) {
-                e.preventDefault();
-
-                $('#offset').html('');
-            });
-
-            $('.enter-fullscreen').click(function(e) {
-                e.preventDefault();
-
-                var percent = $('#offset').html();
-
-                var duration = $('div.vjs-duration-display').html()
-                    .replace('<span class="vjs-control-text">Duration Time</span>', '')
-                    .replace(',', ':')
-                    .split(':');
-
-                var seconds = Math.floor(duration[0]) * 60 + Math.floor(duration[1]);
-                var offset = Math.floor(seconds * percent / 100);
-                videojs('player').currentTime(offset);
-
-                if (!$('button.vjs-play-control.vjs-control.vjs-button').hasClass('vjs-playing')) {
-                    $('.vjs-play-control').click();
-                }
-
-                $('.vjs-fullscreen-control').click();
-            });
-
-            setInterval(function() {
-
-                $('#progression-data').removeClass('text-danger');
-
-                if ($('button.vjs-play-control.vjs-control.vjs-button').hasClass('vjs-playing')) {
-                    $('#progression-data').addClass('text-danger');
-
-                    var progress = $('div.vjs-progress-holder.vjs-slider.vjs-slider-horizontal').attr('aria-valuenow');
-                    if (!progress || isNaN(progress)) {
-                        progress = 0;
-                    }
-
-                    $('#progression').html(progress);
-                }
-
-            }, 1000);
-
-        });
-
-    </script>
+    <a class="btn btn-primary video-back" href="{{ path('video_index', app.request.query.all) }}">{{ 'base.button.back'|trans }}</a>
 
 {% endblock %}

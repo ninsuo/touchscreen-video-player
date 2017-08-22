@@ -15,6 +15,7 @@
                         preload="auto"
                         width="360"
                         height="240"
+                        autoplay
                         data-setup='{}'
                 >
                     <source src="{{ asset('video/' ~ link) }}" type='video/mp4'>
@@ -102,7 +103,9 @@
 
         $(document).ready(function() {
 
-            $('.offset-editor').click(function() {
+            $('.offset-editor').click(function(e) {
+                e.preventDefault();
+
                 var current = $('#offset');
                 var offset = current.html();
                 var clicked = $(this).html();
@@ -127,7 +130,9 @@
                 }
             });
 
-            $('.offset-cancel').click(function() {
+            $('.offset-cancel').click(function(e) {
+                e.preventDefault();
+
                 $('#offset').html('');
             });
 
@@ -138,11 +143,11 @@
 
                 var duration = $('div.vjs-duration-display').html()
                     .replace('<span class="vjs-control-text">Duration Time</span>', '')
+                    .replace(',', ':')
                     .split(':');
 
                 var seconds = Math.floor(duration[0]) * 60 + Math.floor(duration[1]);
                 var offset = Math.floor(seconds * percent / 100);
-
                 videojs('player').currentTime(offset);
 
                 if (!$('button.vjs-play-control.vjs-control.vjs-button').hasClass('vjs-playing')) {
@@ -160,7 +165,7 @@
                     $('#progression-data').addClass('text-danger');
 
                     var progress = $('div.vjs-progress-holder.vjs-slider.vjs-slider-horizontal').attr('aria-valuenow');
-                    if (!progress) {
+                    if (!progress || isNaN(progress)) {
                         progress = 0;
                     }
 
